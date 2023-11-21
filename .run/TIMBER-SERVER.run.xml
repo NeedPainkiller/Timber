@@ -1,0 +1,14 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="RPA-PORTAL-MARIADB" type="Application" factoryName="Application">
+    <option name="ALTERNATIVE_JRE_PATH" value="JAVA_17" />
+    <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+    <option name="MAIN_CLASS_NAME" value="kr.co.rbrain.Application" />
+    <module name="rpa-portal.main" />
+    <shortenClasspath name="ARGS_FILE" />
+    <option name="VM_PARAMETERS" value="-server -Dspring.profiles.active=local,mariadb,ehcache -Djava.net.preferIPv4Stack=true -Dlog4j2.formatMsgNoLookups=true -Xms1024m -Xmx1024m -XX:MaxNewSize=384m -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=./logs/java_pid&lt;pid&gt;.hprof -XX:ParallelGCThreads=2 -Xlog:gc:./logs/gclog" />
+    <method v="2">
+      <option name="Gradle.BeforeRunTask" enabled="true" tasks="clean" externalProjectPath="$PROJECT_DIR$" vmOptions="" scriptParameters="" />
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

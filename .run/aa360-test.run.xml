@@ -1,0 +1,19 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="aa360-test" type="JUnit" factoryName="JUnit">
+    <module name="rpa-portal.libs.aa360.test" />
+    <shortenClasspath name="ARGS_FILE" />
+    <option name="MAIN_CLASS_NAME" value="" />
+    <option name="METHOD_NAME" value="" />
+    <option name="TEST_OBJECT" value="directory" />
+    <option name="TEST_SEARCH_SCOPE">
+      <value defaultName="wholeProject" />
+    </option>
+    <dir value="$PROJECT_DIR$/libs/aa360/src/test/java" />
+    <patterns>
+      <pattern testClass="^(?!.*kr\.co\.rbrain\.aa360.*).*$" />
+    </patterns>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

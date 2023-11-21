@@ -1,0 +1,65 @@
+HELP.md
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
+.vscode/
+
+### Logs ###
+/logs/*
+
+### properties ###
+src/main/resources/application-local.yml
+playground/*.properties
+
+src/main/resources/static/**
+src/main/resources/public/**
+src/main/webapp/**
+
+deploy.ps1
+### playground ###
+playground/*.jar
+playground/logs
+playground/files
+playground/dw
+#playground/application-*.properties
+rpa-portal-server.zip
+rbrain-dist.zip
+*.log
+# git filter-branch -f --index-filter 'git rm --cached --ignore-unmatch ./playground/PowerToysSetup-0.60.1-x64.exe' --prune-empty -- --all
+# git push --force --all
+*.pptx
+*.pid
+src/main/resources/application-sso.yml
+docs/sparrow-cloud-key-3296.txt

@@ -1,0 +1,256 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+}
+
+plugins {
+    id 'java'
+    id 'application'
+    id("org.springframework.boot") version "3.1.5"
+    id("io.spring.dependency-management") version "1.1.3"
+    id("org.hibernate.orm") version "6.2.13.Final"
+    id("org.graalvm.buildtools.native") version "0.9.27"
+    id("org.asciidoctor.jvm.convert") version "3.3.2"
+    id 'war'
+}
+
+allprojects {
+    apply plugin: 'java'
+
+    group = "xyz.needpainkiller"
+    version "0.0.1-" + new Date().format('yyyyMMdd-HHmmss')
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+
+
+    repositories {
+        mavenCentral()
+        gradlePluginPortal()
+        maven { url 'https://repo.spring.io/release' }
+        maven { url "https://jitpack.io" }
+        maven { url "https://raw.githubusercontent.com/graalvm/native-build-tools/snapshots" }
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+
+    dependencies {
+        implementation("org.springframework.boot:spring-boot-starter-actuator")
+        implementation("org.springframework.boot:spring-boot-starter-amqp")
+        implementation("org.springframework.boot:spring-boot-starter-aop")
+        implementation("org.springframework.boot:spring-boot-starter-batch")
+        implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
+        implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+        implementation("org.springframework.boot:spring-boot-starter-data-redis")
+        implementation("org.springframework.boot:spring-boot-starter-data-redis-reactive")
+        implementation("org.springframework.boot:spring-boot-starter-graphql")
+        implementation("org.springframework.boot:spring-boot-starter-hateoas")
+        implementation("org.springframework.boot:spring-boot-starter-jdbc")
+        implementation("org.springframework.boot:spring-boot-starter-mail")
+        implementation("org.springframework.boot:spring-boot-starter-quartz")
+        implementation("org.springframework.boot:spring-boot-starter-logging")
+        implementation("org.springframework.boot:spring-boot-starter-security")
+        implementation("org.springframework.boot:spring-boot-starter-cache")
+        implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+        implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity6:3.1.2.RELEASE")
+        implementation("org.springframework.boot:spring-boot-starter-validation")
+        implementation("org.springframework.boot:spring-boot-starter-web")
+        implementation("org.springframework.boot:spring-boot-starter-web-services")
+        implementation("org.springframework.boot:spring-boot-starter-webflux")
+        implementation("org.springframework.boot:spring-boot-starter-websocket")
+        implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+        implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
+        implementation("org.apache.kafka:kafka-streams")
+        implementation("org.jetbrains.kotlin:kotlin-reflect")
+        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
+        implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.2")
+        implementation("org.mybatis:mybatis-typehandlers-jsr310:1.0.2")
+        implementation("org.springframework.kafka:spring-kafka")
+        implementation("org.springframework.modulith:spring-modulith-starter-core:1.0.2")
+        implementation("org.springframework.modulith:spring-modulith-starter-jdbc:1.0.2")
+        implementation("org.springframework.modulith:spring-modulith-starter-jpa:1.0.2")
+        implementation("org.springframework.modulith:spring-modulith-api:1.0.2")
+        implementation("org.springframework.modulith:spring-modulith-actuator:1.0.2")
+
+        implementation("org.springframework.modulith:spring-modulith-observability:1.0.2")
+
+        implementation("org.springframework:spring-context-support:6.0.11")
+        implementation("org.quartz-scheduler:quartz:2.3.2")
+
+
+        runtimeOnly("org.springframework.boot:spring-boot-devtools")
+        runtimeOnly("org.springframework.boot:spring-boot-docker-compose")
+
+        compileOnly 'org.projectlombok:lombok:1.18.26'
+        annotationProcessor 'org.projectlombok:lombok:1.18.26'
+
+        testImplementation('org.springframework.boot:spring-boot-starter-test:3.1.5') {
+            exclude module: 'junit'
+            exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+        }
+        testImplementation 'org.springframework.batch:spring-batch-test:5.0.0'
+        testImplementation 'org.springframework.security:spring-security-test:6.0.2'
+
+        testImplementation('org.junit.jupiter:junit-jupiter-api:5.9.2')
+//                {exclude module: 'junit-platform-commons'}
+        testImplementation('org.junit.jupiter:junit-jupiter-engine:5.9.2')
+//        testImplementation('org.junit.platform:junit-platform-launcher:5.4.0')
+        testImplementation('org.junit.vintage:junit-vintage-engine:5.9.2')
+        testImplementation('org.junit.platform:junit-platform-engine:1.9.2')
+        testImplementation('org.junit.platform:junit-platform-commons:1.9.2')
+        testImplementation('org.mockito:mockito-junit-jupiter:5.2.0')
+
+        implementation 'org.mariadb.jdbc:mariadb-java-client:3.1.3'
+        implementation 'com.microsoft.sqlserver:mssql-jdbc:12.2.0.jre11'
+        implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.1'
+        implementation 'org.mybatis:mybatis-typehandlers-jsr310:1.0.2'
+
+        implementation("org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16")
+
+        implementation("io.jsonwebtoken:jjwt-api:0.11.5")
+        implementation("io.jsonwebtoken:jjwt-impl:0.11.5")
+        implementation("io.jsonwebtoken:jjwt-jackson:0.11.5")
+        implementation("org.json:json:20230227")
+        implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-csv:2.14.2")
+        implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.14.2")
+
+        implementation("org.ehcache:ehcache:3.10.8")
+
+        implementation("com.azure:azure-core:1.42.0")
+        implementation("com.azure:azure-identity:1.10.0")
+        implementation("com.azure:azure-security-keyvault-secrets:4.6.4")
+        implementation("com.azure:azure-security-keyvault-certificates:4.5.4")
+        implementation("com.azure:azure-security-keyvault-keys:4.6.4")
+
+        implementation("com.google.guava:guava:31.1-jre")
+        implementation("org.apache.commons:commons-lang3:3.12.0")
+        implementation("commons-io:commons-io:2.11.0")
+        implementation("com.github.sett4:jackson-dataformat-xlsx-lite:2.13.0-1")
+        implementation("com.squareup.retrofit2:retrofit:2.9.0")
+        implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+        implementation("com.squareup.retrofit2:converter-jackson:2.9.0")
+        implementation(platform("com.squareup.okhttp3:okhttp-bom:4.10.0"))
+        implementation("com.squareup.okhttp3:okhttp:4.10.0")
+        implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
+
+        implementation("com.github.ua-parser:uap-java:1.5.4")
+        implementation("com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5")
+
+        implementation("io.micrometer:micrometer-core:1.10.5") // metrics
+        implementation("io.micrometer:micrometer-registry-prometheus:1.10.5")
+
+        implementation("com.hierynomus:sshj:0.35.0") // SFTP
+
+        implementation("org.apache.tomcat.embed:tomcat-embed-jasper:10.1.7") // web-jsp
+        implementation("javax.servlet:jstl:1.2")                          // web-jstl
+
+        implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2")
+
+        //        아래 dependency는 jdk 11 이상에서 사용 (버젼 업그레이드 하지 말 것)
+//		implementation("java.persistence:java.persistence-api:2.2")
+        implementation("jakarta.persistence:jakarta.persistence-api:3.1.0")
+
+        annotationProcessor("jakarta.persistence:jakarta.persistence-api")
+        annotationProcessor("jakarta.annotation:jakarta.annotation-api")
+
+        implementation("javax.xml.bind:jaxb-api:2.3.1")
+        implementation("jakarta.xml.bind:jakarta.xml.bind-api:4.0.0")
+        implementation("jakarta.activation:jakarta.activation-api:2.1.1")
+        implementation("org.glassfish.jaxb:jaxb-runtime:4.0.2")
+        implementation("org.glassfish.jaxb:jaxb-core:4.0.2")
+        implementation("com.sun.xml.bind:jaxb-impl:2.3.6")
+
+
+    }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+dependencies {
+    implementation project(':libs:core')
+}
+
+bootWar {
+    enabled = true         //bootWar Task 시 이름 지정
+    archiveBaseName = "rpa-portal"
+    archiveVersion = '0.0.1-' + new Date().format('yyyyMMdd')
+    archiveFileName = "ROOT.war"
+}
+
+// Spring Boot 서버 실행 Jar
+bootJar {
+    enabled = true
+    archiveBaseName = "rpa-portal"
+    archiveVersion = new Date().format('yyyyMMdd')
+    mainClassName = 'kr.co.rbrain.Application'
+    archiveFileName = "rpa-portal.jar"
+    manifest {
+        attributes("Implementation-Title": "RBRAIN-RPA-PORTAL",
+                "Implementation-Version": "2.2.1-" + new Date().format('yyyyMMdd'))
+    }
+}
+
+// 소스코드 Jar
+jar {
+    enabled = true
+
+    // JAR 파일 이름
+    archiveFileName = "rpa-portal-plain-" + new Date().format('yyyyMMdd') + ".jar"
+    manifest { // MANIFEST.MF 에 등록될 실행 클래스 정보 등록
+        attributes('Main-Class': "kr.co.rbrain.Application",
+                "Implementation-Title": "RBRAIN-RPA-PORTAL",
+                "Implementation-Version": "2.2.1-" + new Date().format('yyyyMMdd'))
+    }
+    // 식별자 등록
+//    classifier = 'kr.co.rbrain.*'
+
+    from { // Source 및 Dependency 중 모듈 명이 "rpa-portal" 로 실행하는
+        configurations.runtimeClasspath
+                .collect {
+                    if (it.name.startsWith("rpa-portal")) {
+                        it.isDirectory() ? it : zipTree(it)
+                    }
+                }
+    }
+    zip64 = true
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'org.springframework.boot'
+
+    bootJar {
+        enabled = false
+    }
+
+    jar {
+        enabled = true
+        archiveFileName = "rpa-portal-" + project.name + ".jar"
+    }
+}
+
+/*task deployJar(type: Exec) {
+    dependsOn 'bootJar'
+    commandLine 'cmd', '/c', 'Powershell  -File  deploy.ps1'
+}*/
+
+
+
+hibernate {
+    enhancement {
+        enableAssociationManagement.set(true)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
