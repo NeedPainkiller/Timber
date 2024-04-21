@@ -156,6 +156,7 @@ public class WebSecurityConfig {
                      * SWAGGER 및 Resource 접근 허용
                      * */
                     authorize.requestMatchers(
+                                    new AntPathRequestMatcher("/actuator/**"),
                                     new AntPathRequestMatcher("/swagger-ui/**"),
                                     new AntPathRequestMatcher("/swagger.json"),
                                     new AntPathRequestMatcher("/swagger-resources/**"),
@@ -188,17 +189,12 @@ public class WebSecurityConfig {
 
     }
 
-    private static final String[] AUTH_SWAGGER_ALLOW_LIST_PATTERN = {
-            "/swagger-ui/**", "/swagger.json", "/swagger-resources/**", "/swagger", "/swagger**/**", "/swagger-ui.html", "/webjars/**", "/v2/**", "/v3/**"
-    };
-    private static final String[] AUTH_RESOURCE_ALLOW_LIST_PATH = {
-            "/WEB-INF/**", "/web/**", "/css/**", "/js/**", "/img/**", "/view/**", "/media/**", "/static/**", "/resources/**", "/favicon.ico", "/robots.txt"
-    };
 
     @Bean
     public WebSecurityCustomizer WebSecurityCustomizer() {
         return web -> web.httpFirewall(defaultHttpFirewall())
                 .ignoring().requestMatchers(
+                        new AntPathRequestMatcher("/actuator/**"),
                         new AntPathRequestMatcher("/swagger-ui/**"),
                         new AntPathRequestMatcher("/swagger.json"),
                         new AntPathRequestMatcher("/swagger-resources/**"),

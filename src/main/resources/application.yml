@@ -1,25 +1,40 @@
- management:
+management:
+  server:
+    port:
   endpoints:
+    #    enabled-by-default: true # /actuator 엔드포인트 활성화 - only dev
+    enabled-by-default: false
+    jmx.exposure.exclude: "*"
     web:
       exposure:
-        include: "refresh" # /actuator/refresh 엔드포인트 활성화, 클라이언트 Context refresh 실행 > ConfigServer로부터 변경된 설정을 다시 가져옴
+        #        include: "*"
+        include:
+          - "refresh" # /actuator/refresh 엔드포인트 활성화, 클라이언트 Context refresh 실행 > ConfigServer로부터 변경된 설정을 다시 가져옴
+  endpoint:
+    prometheus.enabled: false
+    health:
+      enabled: false
+    info:
+      enabled: false
+    metrics:
+      cache:
+        time-to-live: 60s
+      enabled: false
 
 spring:
   profiles:
     active:
   pid.file: timber.pid
   application:
-    name: timber
+    name: timber_application
   servlet:
     multipart:
       enabled: true
       maxFileSize: 100MB
       maxRequestSize: 500MB
 
-  #  base-url: http://127.0.0.1:8080
-
   main:
-    #    allow-circular-references: true
+    allow-circular-references: false
     allow-bean-definition-overriding: true
 
   mvc:
@@ -30,25 +45,23 @@ spring:
       INDENT_OUTPUT: true
 
   config:
-    # Spring Cloud Server
+    # Spring Cloud Config Server
     import:
 
   datasource:
-    #    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
     driver-class-name:
     jdbc-url:
     username:
     password:
-    #    connectionProperties: useUnicode=true;characterEncoding=utf-8;
-    #    driverClassName: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-    #    driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
     connectionTimeout: 60000
-    minimumIdle: 10
     maximumPoolSize: 300
+    minimumIdle: 10
     maxLifetime: 175000
     autoReconnect: true
     validationQuery: select 1
     leakDetectionThreshold: 60000
+    data-source-properties:
+      rewriteBatchedStatements: true # MySQL Batch Insert
     hikari:
       leak-detection-threshold: 60000
 
@@ -61,6 +74,7 @@ spring:
 
   jpa:
     open-in-view: false
+
     format_sql: true
     show-sql: false
     generate-ddl: false
@@ -193,13 +207,12 @@ spring:
       - org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration
 
 
+
+
 java.net.preferIPv4Stack: true
 
 server:
   port: 8080
-  connection-timeout: 30000
-  tomcat.connection-timeout: 30000
-  jetty.idle-timeout: 30000
   servlet.context-path: /
   shutdown: graceful
   compression:
@@ -207,55 +220,53 @@ server:
     mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json
     min-response-size: 2048
   error:
-    #    whitelabel.enabled: true
+    whitelabel.enabled: true
     #    include-exception: false
-    #    include-stacktrace: never
+    include-stacktrace: never
     path: /error
   ssl:
     enabled: false
-#    protocol: TLS
-#    enabled-protocols: TLSv1.2
-#    key-store-type: PKCS12
-#    key-store: classpath:keystore/keystore.p12
-#    key-store-password:
+  #    protocol: TLS
+  #    enabled-protocols: TLSv1.2
+  #    key-store-type: PKCS12
+  #    key-store: classpath:keystore/keystore.p12
+  #    key-store-password:
+  tomcat:
+    connection-timeout: 30000
+    threads:
+      max: 200 # 생성할 수 있는 thread의 총 개수
+      min-spare: 10 # 최소한으로 유지할 수 있는 thread의 개수
+    accept-count: 100  # 동시에 처리할 수 있는 최대 요청 수 (작업 큐 size)
+
+  jetty:
+    connection-idle-timeout: 30000
+    threads:
+      max: 200
+      min: 10
 
 #logback:
 #  configurationFile: classpath:log/logback-spring.xml
 
 logging:
   config: classpath:logback-spring.xml
-#  level:
-#    root: INFO
-#    org.thymeleaf: OFF
-#    io.lettuce: OFF
-#    log4jdbc.log4j2: OFF
-#    org:
-#      hibernate:
-#        SQL: DEBUG
-#        type.descriptor.sql.BasicBinder: DEBUG
-#      springframework.jdbc.core:
-#        JdbcTemplate: DEBUG
-#        StatementCreatorUtils: DEBUG
+  #  level:
+  #    root: INFO
+  #    org.thymeleaf: OFF
+  #    io.lettuce: OFF
+  #    log4jdbc.log4j2: OFF
+  #    org:
+  #      hibernate:
+  #        SQL: DEBUG
+  #        type.descriptor.sql.BasicBinder: DEBUG
+  #      springframework.jdbc.core:
+  #        JdbcTemplate: DEBUG
+  #        StatementCreatorUtils: DEBUG
 
-#    com.zaxxer.hikari: DEBUG
+  #    com.zaxxer.hikari: DEBUG
 
-#mybatis:
-#  type-aliases-package: xyz.needpainkiller.**.dao
-#  mapper-locations: /mapper/**/*.xml
-
-management:
-  endpoints:
-    health:
-      show-details: always
-    web:
-      exposure:
-        include: "*"
-  metrics:
-    export.prometheus.enabled: true
-    cache.instrument: true
-  endpoint:
-    prometheus.enabled: true
-    metric.enabled: true
+  #mybatis:
+  #  type-aliases-package: xyz.needpainkiller.**.dao
+  #  mapper-locations: /mapper/**/*.xml
 
 jasypt:
   encryptor:

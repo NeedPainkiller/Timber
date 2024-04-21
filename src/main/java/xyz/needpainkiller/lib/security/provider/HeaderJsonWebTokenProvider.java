@@ -9,6 +9,7 @@ import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import xyz.needpainkiller.api.team.model.Team;
@@ -26,6 +27,7 @@ import static xyz.needpainkiller.lib.exceptions.CommonErrorCode.*;
 @Profile({"jwt-header"})
 @Slf4j
 @Component
+@RefreshScope
 public class HeaderJsonWebTokenProvider extends JsonWebTokenProvider {
 
 

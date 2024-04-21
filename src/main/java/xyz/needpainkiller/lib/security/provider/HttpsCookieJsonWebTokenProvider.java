@@ -10,6 +10,7 @@ import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import xyz.needpainkiller.api.team.model.Team;
@@ -25,10 +26,10 @@ import java.util.List;
 
 import static xyz.needpainkiller.lib.exceptions.CommonErrorCode.*;
 
-
 @Profile({"jwt-cookie"})
 @Slf4j
 @Component
+@RefreshScope
 public class HttpsCookieJsonWebTokenProvider extends JsonWebTokenProvider {
     private final String baseUrl;
 
@@ -36,7 +37,7 @@ public class HttpsCookieJsonWebTokenProvider extends JsonWebTokenProvider {
             @Autowired @Qualifier("JwtDoubleChecker") JwtDoubleChecker jwtDoubleChecker,
             @Autowired JsonWebTokenSecretKeyManager secretKeyManager,
             @Value("${jwt.expire-time-ms}") long expireTime,
-            @Value("${spring.base-url}") String baseUrl) {
+            @Value("${server.domainl}") String baseUrl) {
         super(jwtDoubleChecker, secretKeyManager, expireTime);
         this.baseUrl = baseUrl;
     }
@@ -113,7 +114,7 @@ public class HttpsCookieJsonWebTokenProvider extends JsonWebTokenProvider {
         cookie.setPath("/");
         cookie.setSecure(true);
         cookie.setHttpOnly(true);
-//        cookie.setDomain(baseUrl);
+        cookie.setDomain(baseUrl);
         return cookie;
     }
 
@@ -122,7 +123,7 @@ public class HttpsCookieJsonWebTokenProvider extends JsonWebTokenProvider {
         cookie.setPath("/");
         cookie.setSecure(true);
         cookie.setHttpOnly(true);
-//        cookie.setDomain(baseUrl);
+        cookie.setDomain(baseUrl);
         cookie.setMaxAge(0);
         return cookie;
     }
