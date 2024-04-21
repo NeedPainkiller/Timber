@@ -48,7 +48,7 @@ public class QuartzScheduleService {
         //todo : job history에도 기록하도록 함.
 
         if (Strings.isBlank(jobRequest.getJobName())) {
-            throw new QuartzSchedulerException(CommonErrorCode.RPA_JOB_SCHEDULE_NAME_EMPTY);
+            throw new QuartzSchedulerException(CommonErrorCode.JOB_SCHEDULE_NAME_EMPTY);
         }
 
         JobKey jobKey = null;
@@ -62,7 +62,7 @@ public class QuartzScheduleService {
 
             if (isJobExists(jobKey)) {
 //                throw new QuartzSchedulerException(RPA_JOB_SCHEDULE_ALREADY_EXIST);
-                log.error(CommonErrorCode.RPA_JOB_SCHEDULE_ALREADY_EXIST.getMessage() + " : {}", jobRequest.getJobName());
+                log.error(CommonErrorCode.JOB_SCHEDULE_ALREADY_EXIST.getMessage() + " : {}", jobRequest.getJobName());
                 return false;
             }
 
@@ -94,10 +94,10 @@ public class QuartzScheduleService {
         //todo : job history에도 기록하도록 함.
         log.debug("[schedulerdebug] deleting job with jobKey : {}", jobKey);
         if (!isJobExists(jobKey)) {
-            throw new QuartzSchedulerException(CommonErrorCode.RPA_JOB_SCHEDULE_NOT_EXIST);
+            throw new QuartzSchedulerException(CommonErrorCode.JOB_SCHEDULE_NOT_EXIST);
         }
         if (isJobRunning(jobKey)) {
-            throw new QuartzSchedulerException(CommonErrorCode.RPA_JOB_SCHEDULE_ALREADY_RUNNING);
+            throw new QuartzSchedulerException(CommonErrorCode.JOB_SCHEDULE_ALREADY_RUNNING);
         }
 
         try {
@@ -113,13 +113,13 @@ public class QuartzScheduleService {
         log.debug("[schedulerdebug] pausing job with jobKey : {}", jobKey);
 
         if (!isJobExists(jobKey)) {
-            throw new QuartzSchedulerException(CommonErrorCode.RPA_JOB_SCHEDULE_NOT_EXIST);
+            throw new QuartzSchedulerException(CommonErrorCode.JOB_SCHEDULE_NOT_EXIST);
         }
         if (isJobRunning(jobKey)) {
-            throw new QuartzSchedulerException(CommonErrorCode.RPA_JOB_SCHEDULE_ALREADY_RUNNING);
+            throw new QuartzSchedulerException(CommonErrorCode.JOB_SCHEDULE_ALREADY_RUNNING);
         }
         if (getJobState(jobKey).equals("PAUSED")) {
-            throw new QuartzSchedulerException(CommonErrorCode.RPA_JOB_SCHEDULE_ALREADY_PAUSED);
+            throw new QuartzSchedulerException(CommonErrorCode.JOB_SCHEDULE_ALREADY_PAUSED);
         }
         try {
             Scheduler scheduler = schedulerFactoryBean.getScheduler();
@@ -142,10 +142,10 @@ public class QuartzScheduleService {
         //todo : job history에도 기록하도록 함.
         log.debug("[schedulerdebug] resuming job with jobKey : {}", jobKey);
         if (!isJobExists(jobKey)) {
-            throw new QuartzSchedulerException(CommonErrorCode.RPA_JOB_SCHEDULE_NOT_EXIST);
+            throw new QuartzSchedulerException(CommonErrorCode.JOB_SCHEDULE_NOT_EXIST);
         }
         if (!getJobState(jobKey).equals("PAUSED")) {
-            throw new QuartzSchedulerException(CommonErrorCode.RPA_JOB_SCHEDULE_ALREADY_RUNNING);
+            throw new QuartzSchedulerException(CommonErrorCode.JOB_SCHEDULE_ALREADY_RUNNING);
         }
         try {
             Scheduler scheduler = schedulerFactoryBean.getScheduler();

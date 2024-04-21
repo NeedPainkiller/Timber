@@ -44,8 +44,7 @@ import static xyz.needpainkiller.lib.exceptions.CommonErrorCode.USER_NOT_EXIST;
 @Service
 public class UserService {
 
-    @Value("${rpa.system-user}")
-    private Long SYSTEM_USER;
+    private Long SYSTEM_USER=1L;
 
     @Autowired
     private UserRepo userRepo;

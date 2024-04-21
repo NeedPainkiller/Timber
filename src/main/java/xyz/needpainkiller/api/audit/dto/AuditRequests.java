@@ -43,11 +43,11 @@ public class AuditRequests {
 
         @Schema(description = "유저 ID", example = "user01")
         private String userId;
-        @Schema(description = "유저 이메일", example = "rpamaster@google.com")
+        @Schema(description = "유저 이메일", example = "needpainkiller6512@google.com")
         private String userEmail;
         @Schema(description = "유저 이름", example = "user01")
         private String userName;
-        @Schema(description = "부서 이름", example = "우리카드")
+        @Schema(description = "부서 이름", example = "회사")
         private String teamName;
         @Schema(description = "메뉴 이름", example = "DASHBOARD")
         private String menuName;

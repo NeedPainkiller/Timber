@@ -12,7 +12,7 @@ public enum FileServiceType implements CodeEnum, Serializable {
     NONE(0),
     DEFAULT(1),
     ATTACH(2),
-    RPA_SCRIPT(3),
+    SCRIPT(3),
     CAPTURE(99),
     OTHER(9999);
 
