@@ -1,5 +1,4 @@
-# TIMBER (Monolith) - Deprecated
-
+# TIMBER
 
 <p align="center">
   <a href="https://blog.needpainkiller.xyz/" target="blank"><img src="./img/timber-logo.svg" width="200" alt="Timber Logo" /></a>
@@ -26,13 +25,13 @@
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 This project uses Spring Boot with OpenJDK 21 and Gradle7.2.1
 
-This project is a monolithic architecture that is deprecated. The new Timber Application project can be found in the following [this repositroy](https://github.com/NeedPainkiller/Timber).
+This project forked from monolithic architecture [Timber-Monolith](https://github.com/NeedPainkiller/Timber-Monolith)
 
-If you want to learn more about [Timber](https://github.com/NeedPainkiller/Timber), please visit its Blog: https://blog.needpainkiller.xyz
+please visit its Blog: https://blog.needpainkiller.xyz
 
 
 ## Description
-Log processing backend service for [Timber](https://github.com/NeedPainkiller/Timber) Framework
+Main Backend service for [Timber](https://github.com/NeedPainkiller/Timber) Framework
 ## Requirements
 - <img src="https://img.shields.io/badge/Java-67493A?style=flat-square&logo=OpenJDK&logoColor=white"/>
 - <img src="https://img.shields.io/badge/Spring%20Boot-6DB33F?style=flat-square&logo=SpringBoot&logoColor=white"/>
