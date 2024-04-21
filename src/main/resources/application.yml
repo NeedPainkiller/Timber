@@ -1,4 +1,12 @@
+ management:
+  endpoints:
+    web:
+      exposure:
+        include: "refresh" # /actuator/refresh 엔드포인트 활성화, 클라이언트 Context refresh 실행 > ConfigServer로부터 변경된 설정을 다시 가져옴
+
 spring:
+  profiles:
+    active:
   pid.file: timber.pid
   application:
     name: timber
@@ -20,6 +28,10 @@ spring:
   jackson:
     serialization:
       INDENT_OUTPUT: true
+
+  config:
+    # Spring Cloud Server
+    import:
 
   datasource:
     #    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
@@ -275,32 +287,6 @@ resource:
 jwt:
   secret-key:
   expire-time-ms: 2592000000
-
-#rpa-manager:
-#  solution: AA
-#  baseUrl:
-#  userName:
-#  password:
-
-rpa:
-  system-user: 1
-  # RPA 과제 엄격 모드 (과제 스크립트 유효성 체크)
-  # true : 엄격 모드 (운영 시 권장)
-  # false : 비엄격 모드 (테스트 모드에서만 사용할 것)
-  strict-task: true
-  # RPA Agent (Bot) 엄격 모드 (Agent API KEY 유효성 체크)
-  strict-agent: true
-  # 스케줄링 엄격 모드
-  #  # true : 엄격 모드 (U Bot 만 스케줄링 가능, CR 에 스케줄링 위임 및 동기화)
-  #  # false : 비엄격 모드 (U Bot & A Bot 스케줄링 가능, CR 동기화 비활성화)
-  strict-schedule: true
-
-  notification:
-    petition: true
-    failure: false
-
-  agent.apikey-regen: false
-  role.active: false
 
 springfox.documentation.enabled: false
 
