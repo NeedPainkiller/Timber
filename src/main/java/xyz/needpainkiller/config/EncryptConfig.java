@@ -21,11 +21,10 @@ import java.nio.charset.StandardCharsets;
 @EnableEncryptableProperties
 public class EncryptConfig {
     @Bean("stringEncryptor")
-    public StringEncryptor propertiesEncryptor() {
+    public StringEncryptor propertiesEncryptor(@Value("${jasypt.encryptor.password}") String password) {
         PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
         SimpleStringPBEConfig config = new SimpleStringPBEConfig();
-        config.setPassword("2D4A614E645266556A586E3272357538");
-//        config.setPassword(System.getenv("JASYPT_PASSWORD")); // 환경 변수
+        config.setPassword(password);
         config.setAlgorithm("PBEWITHHMACSHA512ANDAES_256");
         config.setKeyObtentionIterations("1000");
         config.setPoolSize("1");

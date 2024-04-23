@@ -1,6 +1,6 @@
 # TIMBER
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=auto&height=300&section=header&text=TIMBER&fontSize=90&animation=fadeIn&fontAlignY=38&desc=Contraine%20Backend%20Service&descAlignY=51&descAlign=62"/>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=auto&height=300&section=header&text=TIMBER&fontSize=90&animation=fadeIn&fontAlignY=38&desc=Micro%20Backend%20Service&descAlignY=51&descAlign=62"/>
 
 
 <p align="center">
