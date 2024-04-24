@@ -37,38 +37,37 @@ allprojects {
     }
 
     dependencies {
-        implementation("org.springframework.boot:spring-boot-starter-actuator")
-        implementation("org.springframework.boot:spring-boot-starter-aop")
-        implementation("org.springframework.boot:spring-boot-starter-batch")
-            implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
-        implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-        implementation("org.springframework.boot:spring-boot-starter-data-redis")
-        implementation("org.springframework.boot:spring-boot-starter-jdbc")
-        implementation("org.springframework.boot:spring-boot-starter-mail")
-        implementation("org.springframework.boot:spring-boot-starter-quartz")
-        implementation("org.springframework.boot:spring-boot-starter-logging")
-        implementation("org.springframework.boot:spring-boot-starter-security")
-        implementation("org.springframework.boot:spring-boot-starter-cache")
-        implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
-        implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity6:3.1.2.RELEASE")
-        implementation("org.springframework.boot:spring-boot-starter-validation")
-        implementation("org.springframework.boot:spring-boot-starter-web")
-        implementation("org.springframework.boot:spring-boot-starter-web-services")
-        implementation("org.apache.kafka:kafka-streams")
-        implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.2")
-        implementation("org.mybatis:mybatis-typehandlers-jsr310:1.0.2")
-        implementation("org.springframework.kafka:spring-kafka")
+        implementation 'org.springframework.boot:spring-boot-starter-actuator'
+        implementation 'org.springframework.boot:spring-boot-starter-aop'
+        implementation 'org.springframework.boot:spring-boot-starter-batch'
+        implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+        implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+        implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+        implementation 'org.springframework.boot:spring-boot-starter-mail'
+        implementation 'org.springframework.boot:spring-boot-starter-quartz'
+        implementation 'org.springframework.boot:spring-boot-starter-logging'
+        implementation 'org.springframework.boot:spring-boot-starter-security'
+        implementation 'org.springframework.boot:spring-boot-starter-cache'
+        implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+//        implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6:3.1.2.RELEASE'
+        implementation 'org.springframework.boot:spring-boot-starter-validation'
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+        implementation 'org.springframework.boot:spring-boot-starter-web-services'
+//        implementation 'org.apache.kafka:kafka-streams'
+        implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.2'
+        implementation 'org.mybatis:mybatis-typehandlers-jsr310:1.0.2'
+        implementation 'org.springframework.kafka:spring-kafka'
 
-        implementation("org.springframework.cloud:spring-cloud-starter-config:4.1.1")
-        implementation("org.springframework.cloud:spring-cloud-starter-bus-kafka:4.1.1")
-        implementation("org.springframework.cloud:spring-cloud-config-client:4.1.1")
+        implementation 'org.springframework.cloud:spring-cloud-starter-config:4.1.1'
+        implementation 'org.springframework.cloud:spring-cloud-starter-bus-kafka:4.1.1'
+        implementation 'org.springframework.cloud:spring-cloud-config-client:4.1.1'
 
-        implementation("org.springframework:spring-context-support:6.0.11")
-        implementation("org.quartz-scheduler:quartz:2.3.2")
+        implementation 'org.springframework:spring-context-support:6.0.11'
+        implementation 'org.quartz-scheduler:quartz:2.3.2'
 
 
-        runtimeOnly("org.springframework.boot:spring-boot-devtools")
-//        runtimeOnly("org.springframework.boot:spring-boot-docker-compose")
+        runtimeOnly 'org.springframework.boot:spring-boot-devtools'
+//        runtimeOnly 'org.springframework.boot:spring-boot-docker-compose'
 
         compileOnly 'org.projectlombok:lombok:1.18.30'
         annotationProcessor 'org.projectlombok:lombok:1.18.30'
@@ -94,53 +93,53 @@ allprojects {
         implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.1'
         implementation 'org.mybatis:mybatis-typehandlers-jsr310:1.0.2'
 
-        implementation("org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16")
+        implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
         implementation('ch.qos.logback:logback-core:1.4.14')
         implementation('ch.qos.logback:logback-classic:1.4.14')
 
-        implementation("io.jsonwebtoken:jjwt-api:0.11.5")
-        implementation("io.jsonwebtoken:jjwt-impl:0.11.5")
-        implementation("io.jsonwebtoken:jjwt-jackson:0.11.5")
-        implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-csv:2.14.2")
-        implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.14.2")
+        implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+        implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'
+        implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+        implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-csv:2.14.2'
+        implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.14.2'
 
-        implementation("org.ehcache:ehcache:3.10.8")
+        implementation 'org.ehcache:ehcache:3.10.8'
 
         implementation('com.google.guava:guava:33.0.0-jre')
-        implementation("org.apache.commons:commons-lang3:3.12.0")
-        implementation("commons-io:commons-io:2.11.0")
-        implementation("com.github.sett4:jackson-dataformat-xlsx-lite:2.13.0-1")
-        implementation("com.squareup.retrofit2:retrofit:2.9.0")
-        implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-        implementation("com.squareup.retrofit2:converter-jackson:2.9.0")
+        implementation 'org.apache.commons:commons-lang3:3.12.0'
+        implementation 'commons-io:commons-io:2.11.0'
+        implementation 'com.github.sett4:jackson-dataformat-xlsx-lite:2.13.0-1'
+        implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+        implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+        implementation 'com.squareup.retrofit2:converter-jackson:2.9.0'
         implementation(platform("com.squareup.okhttp3:okhttp-bom:4.10.0"))
-        implementation("com.squareup.okhttp3:okhttp:4.10.0")
-        implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
+        implementation 'com.squareup.okhttp3:okhttp:4.10.0'
+        implementation 'com.squareup.okhttp3:logging-interceptor:4.10.0'
 
-        implementation("com.github.ua-parser:uap-java:1.5.4")
-        implementation("com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5")
+        implementation 'com.github.ua-parser:uap-java:1.5.4'
+        implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5'
 
-        implementation("io.micrometer:micrometer-core:1.10.5") // metrics
-        implementation("io.micrometer:micrometer-registry-prometheus:1.10.5")
+        implementation 'io.micrometer:micrometer-core:1.10.5' // metrics
+        implementation 'io.micrometer:micrometer-registry-prometheus:1.10.5'
 
-        implementation("org.apache.tomcat.embed:tomcat-embed-jasper:10.1.7") // web-jsp
-        implementation("javax.servlet:jstl:1.2")                          // web-jstl
+        implementation 'org.apache.tomcat.embed:tomcat-embed-jasper:10.1.7' // web-jsp
+        implementation 'javax.servlet:jstl:1.2'                          // web-jstl
 
-        implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2")
+        implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
 
         //        아래 dependency는 jdk 11 이상에서 사용 (버젼 업그레이드 하지 말 것)
-//		implementation("java.persistence:java.persistence-api:2.2")
-        implementation("jakarta.persistence:jakarta.persistence-api:3.1.0")
+//		implementation 'java.persistence:java.persistence-api:2.2'
+        implementation 'jakarta.persistence:jakarta.persistence-api:3.1.0'
 
-        annotationProcessor("jakarta.persistence:jakarta.persistence-api")
-        annotationProcessor("jakarta.annotation:jakarta.annotation-api")
+        annotationProcessor 'jakarta.persistence:jakarta.persistence-api'
+        annotationProcessor 'jakarta.annotation:jakarta.annotation-api'
 
-        implementation("javax.xml.bind:jaxb-api:2.3.1")
-        implementation("jakarta.xml.bind:jakarta.xml.bind-api:4.0.0")
-        implementation("jakarta.activation:jakarta.activation-api:2.1.1")
-        implementation("org.glassfish.jaxb:jaxb-runtime:4.0.2")
-        implementation("org.glassfish.jaxb:jaxb-core:4.0.2")
-        implementation("com.sun.xml.bind:jaxb-impl:2.3.6")
+        implementation 'javax.xml.bind:jaxb-api:2.3.1'
+        implementation 'jakarta.xml.bind:jakarta.xml.bind-api:4.0.0'
+        implementation 'jakarta.activation:jakarta.activation-api:2.1.1'
+        implementation 'org.glassfish.jaxb:jaxb-runtime:4.0.2'
+        implementation 'org.glassfish.jaxb:jaxb-core:4.0.2'
+        implementation 'com.sun.xml.bind:jaxb-impl:2.3.6'
     }
 }
 
