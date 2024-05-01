@@ -1,7 +1,8 @@
 # TIMBER
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=auto&height=300&section=header&text=TIMBER&fontSize=90&animation=fadeIn&fontAlignY=38&desc=Micro%20Backend%20Service&descAlignY=51&descAlign=62"/>
-
+<p align="center">
+    <img src="https://capsule-render.vercel.app/api?type=waving&color=auto&height=300&section=header&text=TIMBER&fontSize=90&animation=fadeIn&fontAlignY=38&desc=Micro%20Backend%20Service&descAlignY=51&descAlign=62"/>
+</p>>
 
 <p align="center">
   <a href="https://blog.needpainkiller.xyz/" target="blank"><img src="./img/timber-logo.svg" width="200" alt="Timber Logo" /></a>
