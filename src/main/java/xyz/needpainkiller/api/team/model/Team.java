@@ -35,7 +35,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 @Table(name = "TEAM")
 public class Team implements Serializable, TenantBase {
     @Serial
-    private static final long serialVersionUID = 7391826373439437926L;
+    private static final long serialVersionUID = -1218478122591768291L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "_ID", unique = true, nullable = false)

@@ -85,7 +85,7 @@ public class WebSecurityConfig {
 
         configuration.addAllowedOriginPattern(baseUrl);
         configuration.addAllowedOriginPattern("http://localhost:8080");
-        configuration.addAllowedOriginPattern("http://localhost:3000");
+        configuration.addAllowedOriginPattern("http://localhost:8082");
 
         configuration.addAllowedHeader("*");
 
