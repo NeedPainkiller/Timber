@@ -4,7 +4,6 @@ import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
@@ -16,8 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 import xyz.needpainkiller.api.team.TeamService;
 import xyz.needpainkiller.api.team.error.TeamException;
 import xyz.needpainkiller.api.team.model.Team;
-import xyz.needpainkiller.api.tenant.error.TenantException;
-import xyz.needpainkiller.api.tenant.model.Tenant;
+import xyz.needpainkiller.tenant.domain.error.TenantException;
+import xyz.needpainkiller.tenant.domain.model.Tenant;
 import xyz.needpainkiller.api.user.dao.UserRepo;
 import xyz.needpainkiller.api.user.dao.UserSpecification;
 import xyz.needpainkiller.api.user.dto.UserProfile;
@@ -36,7 +35,7 @@ import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static xyz.needpainkiller.api.tenant.error.TenantErrorCode.TENANT_CONFLICT;
+import static xyz.needpainkiller.tenant.domain.error.TenantErrorCode.TENANT_CONFLICT;
 import static xyz.needpainkiller.lib.exceptions.CommonErrorCode.USER_ALREADY_EXIST;
 import static xyz.needpainkiller.lib.exceptions.CommonErrorCode.USER_NOT_EXIST;
 

@@ -3,7 +3,7 @@ package xyz.needpainkiller.api.workingday;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import xyz.needpainkiller.api.tenant.error.TenantException;
+import xyz.needpainkiller.tenant.domain.error.TenantException;
 import xyz.needpainkiller.api.user.model.User;
 import xyz.needpainkiller.api.workingday.dao.HolidayRepo;
 import xyz.needpainkiller.api.workingday.dto.WorkingDay;
@@ -24,7 +24,7 @@ import java.util.UUID;
 import java.util.function.Predicate;
 
 import static java.time.temporal.TemporalAdjusters.*;
-import static xyz.needpainkiller.api.tenant.error.TenantErrorCode.TENANT_CONFLICT;
+import static xyz.needpainkiller.tenant.domain.error.TenantErrorCode.TENANT_CONFLICT;
 
 @Slf4j
 @Service

@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.*;
-import xyz.needpainkiller.api.tenant.model.TenantBase;
+import xyz.needpainkiller.tenant.domain.model.TenantBase;
 import xyz.needpainkiller.lib.jpa.BooleanConverter;
 
 import java.io.Serial;

@@ -10,7 +10,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.GrantedAuthority;
-import xyz.needpainkiller.api.tenant.model.TenantBase;
+import xyz.needpainkiller.tenant.domain.model.TenantBase;
 import xyz.needpainkiller.lib.jpa.BooleanConverter;
 
 import java.io.Serial;

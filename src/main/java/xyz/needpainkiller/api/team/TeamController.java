@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import xyz.needpainkiller.api.authentication.AuthenticationService;
 import xyz.needpainkiller.api.team.dto.TeamRequests;
 import xyz.needpainkiller.api.team.model.Team;
-import xyz.needpainkiller.api.tenant.error.TenantException;
+import xyz.needpainkiller.tenant.domain.error.TenantException;
 import xyz.needpainkiller.api.user.model.User;
 import xyz.needpainkiller.common.controller.CommonController;
 
@@ -20,7 +20,7 @@ import java.util.Map;
 
 import static org.springframework.http.ResponseEntity.ok;
 import static org.springframework.http.ResponseEntity.status;
-import static xyz.needpainkiller.api.tenant.error.TenantErrorCode.TENANT_CONFLICT;
+import static xyz.needpainkiller.tenant.domain.error.TenantErrorCode.TENANT_CONFLICT;
 
 @Slf4j
 @RestController
