@@ -18,8 +18,9 @@ import xyz.needpainkiller.api.authentication.error.LoginException;
 import xyz.needpainkiller.api.authentication.model.Api;
 import xyz.needpainkiller.api.authentication.model.Division;
 import xyz.needpainkiller.api.team.model.Team;
-import xyz.needpainkiller.api.tenant.TenantService;
-import xyz.needpainkiller.api.tenant.model.Tenant;
+import xyz.needpainkiller.tenant.application.port.in.FindTenantUseCase;
+import xyz.needpainkiller.tenant.domain.service.FindTenantService;
+import xyz.needpainkiller.tenant.domain.model.Tenant;
 import xyz.needpainkiller.api.user.UserService;
 import xyz.needpainkiller.api.user.dto.UserProfile;
 import xyz.needpainkiller.api.user.model.Role;
@@ -51,7 +52,7 @@ public class AuthenticationController extends CommonController implements Authen
     @Autowired
     private UserService userService;
     @Autowired
-    private TenantService tenantService;
+    private FindTenantUseCase findTenantUseCase;
 
     public ResponseEntity<Map<String, Object>> login(AuthenticationRequests.LoginRequest param, HttpServletRequest request, HttpServletResponse response) throws LoginException {
 
@@ -59,9 +60,9 @@ public class AuthenticationController extends CommonController implements Authen
         Tenant tenant;
 
         if (tenantPk != null) {
-            tenant = tenantService.selectTenant(tenantPk);
+            tenant = findTenantUseCase.selectTenant(tenantPk);
         } else {
-            tenant = tenantService.selectDefatultTenant();
+            tenant = findTenantUseCase.selectDefatultTenant();
         }
         String userId = param.getUserId();
         String userPwd = param.getUserPwd();
