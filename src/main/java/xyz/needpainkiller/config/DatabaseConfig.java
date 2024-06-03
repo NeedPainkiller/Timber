@@ -29,11 +29,11 @@ import javax.sql.DataSource;
 @EnableTransactionManagement
 @MapperScan(value = {"xyz.needpainkiller"}, annotationClass = org.apache.ibatis.annotations.Mapper.class,
         sqlSessionFactoryRef = "sqlSessionFactory")
-@EntityScan(basePackages = {"xyz.needpainkiller.**.model"})
+@EntityScan(basePackages = {"xyz.needpainkiller.**.model", "xyz.needpainkiller.**.entity"})
 //@EntityScan(basePackageClasses = ScannableEntity.class)
 @EnableJpaRepositories(
         bootstrapMode = BootstrapMode.DEFERRED,
-        basePackages = {"xyz.needpainkiller.**.dao"},
+        basePackages = {"xyz.needpainkiller.**.dao", "xyz.needpainkiller.**.repository"},
 //        basePackageClasses = ScannableRepository.class,
         entityManagerFactoryRef = "entityManagerFactory",
         transactionManagerRef = "jpaTransactionManager"
@@ -71,7 +71,7 @@ public class DatabaseConfig {
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
         emf.setDataSource(dataSource);
-        emf.setPackagesToScan("xyz.needpainkiller.**.model");
+        emf.setPackagesToScan("xyz.needpainkiller.**.model", "xyz.needpainkiller.**.entity");
         emf.setPersistenceUnitName("entityManager");
         emf.setJpaVendorAdapter(vendorAdapter);
 //        emf.setJpaPropertyMap(properties);
@@ -91,7 +91,7 @@ public class DatabaseConfig {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(dataSource);
         sqlSessionFactoryBean.setVfs(SpringBootVFS.class);
-        sqlSessionFactoryBean.setTypeAliasesPackage("xyz.needpainkiller.**.dao");
+        sqlSessionFactoryBean.setTypeAliasesPackage("xyz.needpainkiller.**.dao, xyz.needpainkiller.**.repository");
 //        sqlSessionFactoryBean.setMapperLocations(applicationContext.getResources("classpath:/mapper-mssql/**/*.xml"));
         return sqlSessionFactoryBean.getObject();
     }
@@ -102,7 +102,7 @@ public class DatabaseConfig {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(dataSource);
         sqlSessionFactoryBean.setVfs(SpringBootVFS.class);
-        sqlSessionFactoryBean.setTypeAliasesPackage("xyz.needpainkiller.**.dao");
+        sqlSessionFactoryBean.setTypeAliasesPackage("xyz.needpainkiller.**.dao, xyz.needpainkiller.**.repository");
 //        sqlSessionFactoryBean.setMapperLocations(applicationContext.getResources("classpath:/mapper-mariadb/**/*.xml"));
         return sqlSessionFactoryBean.getObject();
     }
