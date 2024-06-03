@@ -1,4 +1,4 @@
-package xyz.needpainkiller.api.tenant.error;
+package xyz.needpainkiller.tenant.domain.error;
 
 import org.springframework.http.HttpStatus;
 import xyz.needpainkiller.lib.exceptions.ErrorCode;

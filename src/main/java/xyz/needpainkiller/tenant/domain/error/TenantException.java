@@ -1,4 +1,4 @@
-package xyz.needpainkiller.api.tenant.error;
+package xyz.needpainkiller.tenant.domain.error;
 
 import xyz.needpainkiller.lib.exceptions.BusinessException;
 import xyz.needpainkiller.lib.exceptions.ErrorCode;
