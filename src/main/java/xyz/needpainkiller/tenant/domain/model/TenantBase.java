@@ -1,4 +1,4 @@
-package xyz.needpainkiller.api.tenant.model;
+package xyz.needpainkiller.tenant.domain.model;
 
 import java.util.function.Predicate;
 
