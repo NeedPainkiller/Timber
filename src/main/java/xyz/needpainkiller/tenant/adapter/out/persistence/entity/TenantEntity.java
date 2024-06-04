@@ -1,37 +1,40 @@
-package xyz.needpainkiller.api.tenant.model;
+ package xyz.needpainkiller.tenant.adapter.out.persistence.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.Table;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.*;
 import xyz.needpainkiller.lib.jpa.BooleanConverter;
+import xyz.needpainkiller.tenant.domain.model.TenantBase;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Objects;
+import java.util.function.Predicate;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
 
 @Getter
 @Setter
+@AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @JsonInclude(NON_NULL)
+// Jackson JSON 라이브러리에서 엔티티를 JSON으로 변환할 때, 지연 로딩과 관련된 프록시 객체를 처리하지 않도록 설정
 @JsonIgnoreProperties(value = {"hibernate_lazy_initializer", "handler"}, ignoreUnknown = true)
-// https://stackoverflow.com/questions/67353793/what-does-jsonignorepropertieshibernatelazyinitializer-handler-do
-@Entity
 
+@Entity
 @DynamicInsert
 @Table(name = "TENANT")
 @Cacheable
+// 엄격하지 않은 읽고 쓰기 전략 -동시에 같은 엔티티를 수정하면 데이터 일관성이 깨짐 -EHCACHE는 데이터를 수정하면 캐시 데이터를 무효화 처리
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class Tenant implements Serializable, TenantBase {
+public class TenantEntity implements Serializable, TenantBase {
     @Serial
     private static final long serialVersionUID = 8790536518756589875L;
     @Id
@@ -85,7 +88,7 @@ public class Tenant implements Serializable, TenantBase {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Tenant that = (Tenant) o;
+        TenantEntity that = (TenantEntity) o;
         return defaultYn == that.defaultYn && useYn == that.useYn && visibleYn == that.visibleYn && Objects.equals(id, that.id) && Objects.equals(title, that.title) && Objects.equals(label, that.label) && Objects.equals(url, that.url) && Objects.equals(createdBy, that.createdBy) && Objects.equals(createdDate, that.createdDate) && Objects.equals(updatedBy, that.updatedBy) && Objects.equals(updatedDate, that.updatedDate);
     }
 
@@ -110,6 +113,11 @@ public class Tenant implements Serializable, TenantBase {
                 ", updatedDate=" + updatedDate +
                 '}';
     }
+
+
+    public static final Predicate<TenantEntity> predicateAvailableTenant = TenantEntity::isActive;
+    public static final Predicate<TenantEntity> predicatePublicTenant = TenantEntity::isPublic;
+    public static final Predicate<TenantEntity> predicateDefaultTenant = TenantEntity::isDefault;
 
     public Long getTenantPk() {
         return id;
