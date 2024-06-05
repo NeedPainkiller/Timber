@@ -1,4 +1,4 @@
-package xyz.needpainkiller.api.tenant;
+ package xyz.needpainkiller.tenant.adapter.in.web;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -9,7 +9,8 @@ import jakarta.validation.Valid;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import xyz.needpainkiller.api.tenant.dto.TenantRequests;
+import xyz.needpainkiller.tenant.adapter.in.web.data.CreateTenantRequest;
+import xyz.needpainkiller.tenant.adapter.in.web.data.UpdateTenantRequest;
 
 import java.util.Map;
 
@@ -41,13 +42,13 @@ public interface TenantApi {
     @Operation(description = "Tenant 등록")
     @PostMapping(value = "")
     ResponseEntity<Map<String, Object>> createTenant(
-            @RequestBody @Valid TenantRequests.CreateTenantRequest param, HttpServletRequest request);
+            @RequestBody @Valid CreateTenantRequest param, HttpServletRequest request);
 
     @Operation(description = "Tenant 수정")
     @PutMapping(value = "/{tenantPk}")
     ResponseEntity<Map<String, Object>> updateTenant(
             @Parameter(name = "tenantPk", example = "10", required = true) @PathVariable("tenantPk") Long tenantPk,
-            @RequestBody @Valid TenantRequests.UpdateTenantRequest param, HttpServletRequest request);
+            @RequestBody @Valid UpdateTenantRequest param, HttpServletRequest request);
 
     @Operation(description = "Tenant 삭제")
     @DeleteMapping(value = "/{tenantPk}")
