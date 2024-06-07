@@ -3,13 +3,14 @@ package xyz.needpainkiller.helper;
 import lombok.experimental.UtilityClass;
 import org.apache.logging.log4j.util.Strings;
 import xyz.needpainkiller.api.authentication.error.PasswordException;
-import xyz.needpainkiller.api.user.error.UserException;
+import xyz.needpainkiller.user.domain.error.UserException;
 import xyz.needpainkiller.lib.exceptions.BusinessException;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static xyz.needpainkiller.lib.exceptions.CommonErrorCode.*;
+import static xyz.needpainkiller.user.domain.error.UserErrorCode.*;
 
 @UtilityClass
 public class ValidationHelper {
