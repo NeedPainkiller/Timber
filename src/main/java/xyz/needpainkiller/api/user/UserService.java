@@ -15,14 +15,11 @@ import org.springframework.transaction.annotation.Transactional;
 import xyz.needpainkiller.api.team.TeamService;
 import xyz.needpainkiller.api.team.error.TeamException;
 import xyz.needpainkiller.api.team.model.Team;
-import xyz.needpainkiller.tenant.domain.error.TenantException;
-import xyz.needpainkiller.tenant.domain.model.Tenant;
 import xyz.needpainkiller.api.user.dao.UserRepo;
 import xyz.needpainkiller.api.user.dao.UserSpecification;
 import xyz.needpainkiller.api.user.dto.UserProfile;
 import xyz.needpainkiller.api.user.dto.UserRequests.SearchUserRequest;
 import xyz.needpainkiller.api.user.dto.UserRequests.UpsertUserRequest;
-import xyz.needpainkiller.api.user.error.UserException;
 import xyz.needpainkiller.api.user.model.Role;
 import xyz.needpainkiller.api.user.model.User;
 import xyz.needpainkiller.api.user.model.UserRoleMap;
@@ -30,20 +27,23 @@ import xyz.needpainkiller.api.user.model.UserStatusType;
 import xyz.needpainkiller.common.dto.SearchCollectionResult;
 import xyz.needpainkiller.helper.TimeHelper;
 import xyz.needpainkiller.helper.ValidationHelper;
+import xyz.needpainkiller.tenant.domain.error.TenantException;
+import xyz.needpainkiller.tenant.domain.model.Tenant;
+import xyz.needpainkiller.user.domain.error.UserException;
 
 import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static xyz.needpainkiller.tenant.domain.error.TenantErrorCode.TENANT_CONFLICT;
-import static xyz.needpainkiller.lib.exceptions.CommonErrorCode.USER_ALREADY_EXIST;
-import static xyz.needpainkiller.lib.exceptions.CommonErrorCode.USER_NOT_EXIST;
+import static xyz.needpainkiller.user.domain.error.UserErrorCode.USER_ALREADY_EXIST;
+import static xyz.needpainkiller.user.domain.error.UserErrorCode.USER_NOT_EXIST;
 
 @Slf4j
 @Service
 public class UserService {
 
-    private Long SYSTEM_USER=1L;
+    private Long SYSTEM_USER = 1L;
 
     @Autowired
     private UserRepo userRepo;
@@ -60,19 +60,18 @@ public class UserService {
         log.info("SYSTEM_USER: {}", SYSTEM_USER);
     }
 
-    
+
     @Cacheable(value = "User", key = "'selectSystemUser'")
     public User selectSystemUser() {
         return selectUser(SYSTEM_USER);
     }
 
-    
+
     public Long selectSystemUserPk() {
         return SYSTEM_USER;
     }
 
 
-    
     public User selectUser(Long userPk) throws UserException {
         User user = userRepo.findUserById(userPk);
         if (user == null) {
@@ -81,7 +80,7 @@ public class UserService {
         return user;
     }
 
-    
+
     public List<User> selectUserByUserId(String userId) throws UserException {
         userId = userId.trim();
         List<User> userList = userRepo.findUserByUserId(userId);
@@ -91,13 +90,13 @@ public class UserService {
         return userList;
     }
 
-    
+
     public User selectUserByUserId(Tenant tenant, String userId) throws UserException {
         Long tenantPk = tenant.getId();
         return selectUserByUserId(tenantPk, userId);
     }
 
-    
+
     public User selectUserByUserId(Long tenantPk, String userId) throws UserException {
         userId = userId.trim();
         List<User> userList = userRepo.findUserByUserId(userId);
@@ -108,7 +107,7 @@ public class UserService {
                 .orElseThrow(() -> new UserException(USER_NOT_EXIST));
     }
 
-    
+
     public boolean isUserIdExist(Long tenantPk, String userId) {
         userId = userId.trim();
         List<User> userList = userRepo.findUserByUserId(userId);
@@ -118,7 +117,7 @@ public class UserService {
         return userList.stream().filter(User::isAvailable).anyMatch(user -> user.getTenantPk().equals(tenantPk));
     }
 
-    
+
     @Cacheable(value = "UserProfile", key = "'selectUserProfile-' + #p0", unless = "#result == null")
     public UserProfile selectUserProfile(Long userPk) throws UserException {
         User user = userRepo.findUserById(userPk);
@@ -128,7 +127,7 @@ public class UserService {
         return selectUserProfile(user);
     }
 
-    
+
     @Cacheable(value = "UserProfile", key = "'selectUserProfile-' + #p0.hashCode()", unless = "#result == null")
     public UserProfile selectUserProfile(User user) throws UserException {
         Long userPk = user.getId();
@@ -143,25 +142,25 @@ public class UserService {
         return new UserProfile(user, team, userRoleList);
     }
 
-    
+
     @Cacheable(value = "UserList", key = "'selectUserList'")
     public List<User> selectUserList() {
         return userRepo.findAll();
     }
 
-    
+
     @Cacheable(value = "UserList", key = "'selectUserList-' + #p0")
     public List<User> selectUserList(Long tenantPk) {
         return userRepo.findAll().stream().filter(user -> user.filterByTenant(tenantPk)).toList();
     }
 
-    
+
     @Cacheable(value = "UserList", key = "'selectUserListByPkList-' + #p0.hashCode()")
     public List<User> selectUserListByPkList(List<Long> userPkList) {
         return userRepo.findAllByIdIn(userPkList);
     }
 
-    
+
     @Cacheable(value = "UserList", key = "'selectUserListByRole-' + #p0")
     public List<User> selectUserListByRole(Long rolePk) {
         List<Long> userPkList = roleService.selectUserPkListByRolePk(rolePk);
@@ -169,7 +168,6 @@ public class UserService {
     }
 
 
-    
     @Cacheable(value = "UserList", key = "'selectUserListByRoleList-' + #p0.hashCode()")
     public List<User> selectUserListByRoleList(List<Role> roleList) {
         List<Long> rolePkList = roleList.stream().map(Role::getId).toList();
@@ -177,27 +175,25 @@ public class UserService {
         return selectUserListByPkList(userPkList);
     }
 
-    
+
     public List<User> selectUserListByIdLike(String userId) {
         return selectUserList().stream().filter(User::isAvailable).filter(user -> user.getUserId().startsWith(userId)).toList();
     }
 
 
-    
     @Cacheable(value = "UserList", key = "'selectUserListBySuperAdminRole'")
     public List<User> selectUserListBySuperAdminRole() {
         return selectUserListByRole(RoleService.SUPER_ADMIN);
     }
 
 
-    
     @Cacheable(value = "UserProfileList", key = "'mapUserProfileListByUserPkList-' + #p0.hashCode()")
     public List<UserProfile> mapUserProfileListByUserPkList(List<Long> userPkList) {
         List<User> userList = selectUserListByPkList(userPkList);
         return mapUserProfileList(userList);
     }
 
-    
+
     @Cacheable(value = "UserProfileList", key = "'mapUserProfileList-' + #p0.hashCode()")
     public List<UserProfile> mapUserProfileList(List<User> userList) {
         Map<Long, Team> teamMap = teamService.selectTeamMap();
@@ -216,20 +212,19 @@ public class UserService {
                 }).toList();
     }
 
-    
+
     public Map<Long, User> selectUserMap() {
         List<User> userList = selectUserList();
         return userList.stream().collect(Collectors.toMap(User::getId, t -> t));
     }
 
-    
+
     public Map<Long, User> selectUserMapByPkList(List<Long> userPkList) {
         List<User> userList = selectUserListByPkList(userPkList);
         return userList.stream().collect(Collectors.toMap(User::getId, t -> t));
     }
 
 
-    
     public SearchCollectionResult<User> selectUserList(SearchUserRequest param) {
         Specification<User> specification = Specification.where(UserSpecification.search(param));
         Page<User> userPage = userRepo.findAll(specification, param.pageOf());
@@ -238,7 +233,7 @@ public class UserService {
         return SearchCollectionResult.<User>builder().collection(userList).foundRows(total).build();
     }
 
-    
+
     public SearchCollectionResult<UserProfile> selectUserProfileList(SearchUserRequest param) {
         Specification<User> specification = Specification.where(UserSpecification.search(param));
         Page<User> userPage = userRepo.findAll(specification, param.pageOf());
@@ -249,7 +244,6 @@ public class UserService {
     }
 
 
-    
     public void increaseLoginFailedCnt(Long userPk) {
         User user = selectUser(userPk);
         user.setLoginFailedCnt(user.getLoginFailedCnt() + 1);
@@ -257,7 +251,6 @@ public class UserService {
     }
 
 
-    
     public void updateLastLoginDate(Long userPk) {
         User user = selectUser(userPk);
         user.setLoginFailedCnt(0);
@@ -265,7 +258,7 @@ public class UserService {
         userRepo.save(user);
     }
 
-    
+
     @Transactional
     @Caching(evict = {
             @CacheEvict(value = "User", allEntries = true),
@@ -317,7 +310,7 @@ public class UserService {
         return user;
     }
 
-    
+
     @Transactional
     @Caching(evict = {
             @CacheEvict(value = "User", allEntries = true),
@@ -368,7 +361,7 @@ public class UserService {
         return user;
     }
 
-    
+
     @Transactional
     @Caching(evict = {
             @CacheEvict(value = "User", allEntries = true),
@@ -384,7 +377,7 @@ public class UserService {
         userRepo.save(user);
     }
 
-    
+
     @Transactional
     @Caching(evict = {
             @CacheEvict(value = "User", allEntries = true),
@@ -408,7 +401,7 @@ public class UserService {
         roleService.deleteUserRole(userPk);
     }
 
-    
+
     @Transactional
     @Caching(evict = {
             @CacheEvict(value = "User", allEntries = true),
