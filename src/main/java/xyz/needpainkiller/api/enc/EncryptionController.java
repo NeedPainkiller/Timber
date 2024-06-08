@@ -60,6 +60,4 @@ public class EncryptionController extends CommonController {
         model.put("passwd", passwd);
         return ok(model);
     }
-
-
 }
