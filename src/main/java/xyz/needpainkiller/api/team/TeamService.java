@@ -14,7 +14,7 @@ import xyz.needpainkiller.api.team.dto.TeamRequests.BulkTeamListRequest.BulkTeam
 import xyz.needpainkiller.api.team.error.TeamException;
 import xyz.needpainkiller.api.team.model.Team;
 import xyz.needpainkiller.api.team.model.TeamLevel;
-import xyz.needpainkiller.tenant.domain.error.TenantException;
+import xyz.needpainkiller.api.tenant.domain.error.TenantException;
 import xyz.needpainkiller.api.user.model.User;
 
 import java.util.*;
@@ -22,7 +22,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import static xyz.needpainkiller.api.team.error.TeamErrorCode.*;
-import static xyz.needpainkiller.tenant.domain.error.TenantErrorCode.TENANT_CONFLICT;
+import static xyz.needpainkiller.api.tenant.domain.error.TenantErrorCode.TENANT_CONFLICT;
 
 @Slf4j
 @Service

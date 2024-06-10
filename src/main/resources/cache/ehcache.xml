@@ -118,7 +118,7 @@
     <!--테넌트-->
     <cache alias="Tenant" uses-template="cacheTemplate">
         <key-type>java.lang.String</key-type>
-        <value-type>xyz.needpainkiller.tenant.domain.model.Tenant</value-type>
+        <value-type>xyz.needpainkiller.api.tenant.domain.model.Tenant</value-type>
     </cache>
 
     <cache alias="TenantList" uses-template="cacheTemplate">

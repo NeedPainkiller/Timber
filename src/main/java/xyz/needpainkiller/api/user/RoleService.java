@@ -10,7 +10,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import xyz.needpainkiller.api.authentication.AuthorizationService;
-import xyz.needpainkiller.tenant.domain.error.TenantException;
+import xyz.needpainkiller.api.tenant.domain.error.TenantException;
 import xyz.needpainkiller.api.user.dao.RoleRepo;
 import xyz.needpainkiller.api.user.dao.RoleSpecification;
 import xyz.needpainkiller.api.user.dao.UserRoleMapRepo;
@@ -25,7 +25,7 @@ import xyz.needpainkiller.helper.ValidationHelper;
 
 import java.util.List;
 
-import static xyz.needpainkiller.tenant.domain.error.TenantErrorCode.TENANT_CONFLICT;
+import static xyz.needpainkiller.api.tenant.domain.error.TenantErrorCode.TENANT_CONFLICT;
 import static xyz.needpainkiller.lib.exceptions.CommonErrorCode.*;
 
 @Slf4j
