@@ -11,12 +11,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import xyz.needpainkiller.api.team.model.Team;
-import xyz.needpainkiller.tenant.domain.error.TenantException;
+import xyz.needpainkiller.api.tenant.domain.error.TenantException;
 import xyz.needpainkiller.api.user.RoleService;
 import xyz.needpainkiller.api.user.UserService;
 import xyz.needpainkiller.api.user.dto.UserProfile;
 import xyz.needpainkiller.api.user.error.RoleException;
-import xyz.needpainkiller.user.domain.error.UserException;
+import xyz.needpainkiller.api.user_hex.domain.error.UserException;
 import xyz.needpainkiller.api.user.model.Role;
 import xyz.needpainkiller.api.user.model.SecurityUser;
 import xyz.needpainkiller.api.user.model.User;
@@ -27,9 +27,9 @@ import xyz.needpainkiller.lib.security.provider.JsonWebTokenProvider;
 
 import java.util.List;
 
-import static xyz.needpainkiller.tenant.domain.error.TenantErrorCode.TENANT_SEARCH_EMPTY;
+import static xyz.needpainkiller.api.tenant.domain.error.TenantErrorCode.TENANT_SEARCH_EMPTY;
+import static xyz.needpainkiller.api.user_hex.domain.error.UserErrorCode.*;
 import static xyz.needpainkiller.lib.exceptions.CommonErrorCode.*;
-import static xyz.needpainkiller.user.domain.error.UserErrorCode.*;
 
 @Slf4j
 @Service
