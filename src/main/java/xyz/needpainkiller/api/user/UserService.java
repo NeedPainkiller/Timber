@@ -27,17 +27,17 @@ import xyz.needpainkiller.api.user.model.UserStatusType;
 import xyz.needpainkiller.common.dto.SearchCollectionResult;
 import xyz.needpainkiller.helper.TimeHelper;
 import xyz.needpainkiller.helper.ValidationHelper;
-import xyz.needpainkiller.tenant.domain.error.TenantException;
-import xyz.needpainkiller.tenant.domain.model.Tenant;
-import xyz.needpainkiller.user.domain.error.UserException;
+import xyz.needpainkiller.api.tenant.domain.error.TenantException;
+import xyz.needpainkiller.api.tenant.domain.model.Tenant;
+import xyz.needpainkiller.api.user_hex.domain.error.UserException;
 
 import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static xyz.needpainkiller.tenant.domain.error.TenantErrorCode.TENANT_CONFLICT;
-import static xyz.needpainkiller.user.domain.error.UserErrorCode.USER_ALREADY_EXIST;
-import static xyz.needpainkiller.user.domain.error.UserErrorCode.USER_NOT_EXIST;
+import static xyz.needpainkiller.api.tenant.domain.error.TenantErrorCode.TENANT_CONFLICT;
+import static xyz.needpainkiller.api.user_hex.domain.error.UserErrorCode.USER_ALREADY_EXIST;
+import static xyz.needpainkiller.api.user_hex.domain.error.UserErrorCode.USER_NOT_EXIST;
 
 @Slf4j
 @Service

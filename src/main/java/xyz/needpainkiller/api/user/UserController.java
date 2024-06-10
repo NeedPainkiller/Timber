@@ -13,7 +13,7 @@ import xyz.needpainkiller.api.user.dto.UserCsv;
 import xyz.needpainkiller.api.user.dto.UserProfile;
 import xyz.needpainkiller.api.user.dto.UserRequests;
 import xyz.needpainkiller.api.user.error.RoleException;
-import xyz.needpainkiller.api.user.error.UserException;
+import xyz.needpainkiller.api.user_hex.domain.error.UserException;
 import xyz.needpainkiller.api.user.model.Role;
 import xyz.needpainkiller.api.user.model.User;
 import xyz.needpainkiller.common.controller.CommonController;

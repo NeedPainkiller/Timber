@@ -10,7 +10,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicUpdate;
-import xyz.needpainkiller.tenant.domain.model.TenantBase;
+import xyz.needpainkiller.api.tenant.domain.model.TenantBase;
 import xyz.needpainkiller.lib.jpa.BooleanConverter;
 import xyz.needpainkiller.lib.jpa.JsonToMapConverter;
 
