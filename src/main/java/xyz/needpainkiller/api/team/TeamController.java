@@ -11,7 +11,7 @@ import xyz.needpainkiller.api.authentication.AuthenticationService;
 import xyz.needpainkiller.api.team.dto.TeamRequests;
 import xyz.needpainkiller.api.team.model.Team;
 import xyz.needpainkiller.api.tenant.domain.error.TenantException;
-import xyz.needpainkiller.api.user.model.User;
+import xyz.needpainkiller.api.user_hex.domain.model.User;
 import xyz.needpainkiller.common.controller.CommonController;
 
 import java.util.HashMap;

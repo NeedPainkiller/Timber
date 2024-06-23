@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import xyz.needpainkiller.api.user.model.UserStatusType;
+import xyz.needpainkiller.api.user_hex.domain.model.UserStatusType;
 import xyz.needpainkiller.common.dto.DateType;
 import xyz.needpainkiller.lib.JpaPaginationDirection;
 import xyz.needpainkiller.lib.validation.NonSpecialCharacter;

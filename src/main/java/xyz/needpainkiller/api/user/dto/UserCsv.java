@@ -7,8 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import xyz.needpainkiller.api.team.model.Team;
-import xyz.needpainkiller.api.user.model.Role;
-import xyz.needpainkiller.api.user.model.User;
+import xyz.needpainkiller.api.user_hex.domain.model.Role;
+import xyz.needpainkiller.api.user_hex.domain.model.User;
 
 import java.io.Serial;
 import java.io.Serializable;

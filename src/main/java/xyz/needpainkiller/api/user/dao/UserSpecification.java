@@ -6,8 +6,8 @@ import jakarta.persistence.criteria.Subquery;
 import org.springframework.data.jpa.domain.Specification;
 import xyz.needpainkiller.api.team.model.Team;
 import xyz.needpainkiller.api.user.dto.UserRequests;
-import xyz.needpainkiller.api.user.model.User;
-import xyz.needpainkiller.api.user.model.UserRoleMap;
+import xyz.needpainkiller.api.user_hex.domain.model.User;
+import xyz.needpainkiller.api.user_hex.domain.model.UserRoleMap;
 import xyz.needpainkiller.common.dto.DateType;
 
 import java.sql.Timestamp;

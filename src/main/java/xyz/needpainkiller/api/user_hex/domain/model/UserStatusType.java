@@ -1,4 +1,4 @@
-package xyz.needpainkiller.api.user.model;
+package xyz.needpainkiller.api.user_hex.domain.model;
 
 import lombok.Getter;
 import org.apache.ibatis.type.MappedTypes;

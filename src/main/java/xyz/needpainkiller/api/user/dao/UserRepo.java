@@ -3,7 +3,7 @@ package xyz.needpainkiller.api.user.dao;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import xyz.needpainkiller.api.user.model.User;
+import xyz.needpainkiller.api.user_hex.domain.model.User;
 
 import java.util.List;
 

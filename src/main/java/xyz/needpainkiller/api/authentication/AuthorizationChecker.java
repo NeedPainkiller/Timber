@@ -16,7 +16,7 @@ import xyz.needpainkiller.api.audit.AuditService;
 import xyz.needpainkiller.api.authentication.error.ApiException;
 import xyz.needpainkiller.api.authentication.model.Api;
 import xyz.needpainkiller.api.user.RoleService;
-import xyz.needpainkiller.api.user.model.Role;
+import xyz.needpainkiller.api.user_hex.domain.model.Role;
 import xyz.needpainkiller.api.user.model.SecurityUser;
 import xyz.needpainkiller.common.model.HttpMethod;
 import xyz.needpainkiller.helper.HttpHelper;

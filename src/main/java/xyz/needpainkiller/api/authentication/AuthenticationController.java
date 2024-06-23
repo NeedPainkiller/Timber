@@ -22,9 +22,9 @@ import xyz.needpainkiller.api.tenant.application.port.in.FindTenantUseCase;
 import xyz.needpainkiller.api.tenant.domain.model.Tenant;
 import xyz.needpainkiller.api.user.UserService;
 import xyz.needpainkiller.api.user.dto.UserProfile;
-import xyz.needpainkiller.api.user.model.Role;
+import xyz.needpainkiller.api.user_hex.domain.model.Role;
 import xyz.needpainkiller.api.user.model.SecurityUser;
-import xyz.needpainkiller.api.user.model.User;
+import xyz.needpainkiller.api.user_hex.domain.model.User;
 import xyz.needpainkiller.common.controller.CommonController;
 import xyz.needpainkiller.lib.exceptions.ErrorCode;
 

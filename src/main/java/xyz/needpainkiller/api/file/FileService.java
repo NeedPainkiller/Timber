@@ -12,7 +12,7 @@ import xyz.needpainkiller.api.file.error.FileException;
 import xyz.needpainkiller.api.file.model.FileAuthorityType;
 import xyz.needpainkiller.api.file.model.FileServiceType;
 import xyz.needpainkiller.api.file.model.Files;
-import xyz.needpainkiller.api.user.model.User;
+import xyz.needpainkiller.api.user_hex.domain.model.User;
 import xyz.needpainkiller.helper.TimeHelper;
 
 import java.util.List;

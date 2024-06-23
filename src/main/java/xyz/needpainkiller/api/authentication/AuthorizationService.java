@@ -19,8 +19,8 @@ import xyz.needpainkiller.api.authentication.model.ApiRoleMap;
 import xyz.needpainkiller.api.authentication.model.Division;
 import xyz.needpainkiller.api.authentication.model.Menu;
 import xyz.needpainkiller.api.user.dao.RoleRepo;
-import xyz.needpainkiller.api.user.error.RoleException;
-import xyz.needpainkiller.api.user.model.Role;
+import xyz.needpainkiller.api.user_hex.domain.error.RoleException;
+import xyz.needpainkiller.api.user_hex.domain.model.Role;
 import xyz.needpainkiller.common.model.HttpMethod;
 
 import java.util.Comparator;

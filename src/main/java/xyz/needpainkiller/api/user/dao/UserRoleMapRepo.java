@@ -1,8 +1,8 @@
 package xyz.needpainkiller.api.user.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import xyz.needpainkiller.api.user.model.UserRoleMap;
-import xyz.needpainkiller.api.user.model.UserRoleMapId;
+import xyz.needpainkiller.api.user_hex.domain.model.UserRoleMap;
+import xyz.needpainkiller.api.user_hex.domain.model.UserRoleMapId;
 
 import java.util.List;
 

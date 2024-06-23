@@ -1,4 +1,4 @@
-package xyz.needpainkiller.api.user.model;
+package xyz.needpainkiller.api.user_hex.domain.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

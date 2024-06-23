@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import xyz.needpainkiller.api.user.model.Role;
+import xyz.needpainkiller.api.user_hex.domain.model.Role;
 import xyz.needpainkiller.helper.TimeHelper;
 
 import java.io.Serial;
