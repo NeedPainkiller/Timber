@@ -19,7 +19,7 @@ allprojects {
     apply plugin: 'java'
 
     group = "xyz.needpainkiller"
-    version "0.0.1-" + new Date().format('yyyyMMdd-HHmmss')
+    version "0.0.2-" + new Date().format('yyyyMMdd-HHmmss')
     sourceCompatibility = JavaVersion.VERSION_21
     targetCompatibility = JavaVersion.VERSION_21
 

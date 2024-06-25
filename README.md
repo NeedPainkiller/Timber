@@ -84,5 +84,4 @@ java -jar build/libs/Timber-0.0.1-SNAPSHOT.jar
 - Github - [@PainKiller](https://github.com/NeedPainkiller)
 
 ## License
-
 Timber is [MIT licensed](LICENSE)
