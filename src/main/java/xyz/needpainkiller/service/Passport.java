@@ -7,13 +7,14 @@ import xyz.needpainkiller.api.user_hex.domain.model.Role;
 import xyz.needpainkiller.api.user_hex.domain.model.User;
 
 import java.io.Serial;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
 @Getter
-public class Passport implements UserDetails {
+public class Passport implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 108926648857066641L;
@@ -24,42 +25,6 @@ public class Passport implements UserDetails {
     public Passport(User user, List<Role> roleList) {
         this.user = user;
         this.roleList = new ArrayList<>(roleList);
-    }
-
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roleList;
-    }
-
-    @Override
-    public String getUsername() {
-        return user.getUserId();
-    }
-
-    @Override
-    public String getPassword() {
-        return user.pwd();
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return user.isLoginEnabled();
     }
 
     @Override
