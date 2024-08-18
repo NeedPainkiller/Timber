@@ -14,7 +14,7 @@ import xyz.needpainkiller.api.tenant.domain.error.TenantException;
 import xyz.needpainkiller.api.user.dao.RoleRepo;
 import xyz.needpainkiller.api.user.dao.RoleSpecification;
 import xyz.needpainkiller.api.user.dao.UserRoleMapRepo;
-import xyz.needpainkiller.api.user.dto.RoleRequests;
+import xyz.needpainkiller.api.user_hex.adapter.in.web.data.RoleRequests;
 import xyz.needpainkiller.api.user_hex.domain.error.RoleException;
 import xyz.needpainkiller.api.user_hex.domain.model.Role;
 import xyz.needpainkiller.api.user_hex.domain.model.User;

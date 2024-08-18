@@ -2,7 +2,7 @@ package xyz.needpainkiller.api.user.dao;
 
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
-import xyz.needpainkiller.api.user.dto.RoleRequests;
+import xyz.needpainkiller.api.user_hex.adapter.in.web.data.RoleRequests;
 import xyz.needpainkiller.api.user_hex.domain.model.Role;
 import xyz.needpainkiller.common.dto.DateType;
 

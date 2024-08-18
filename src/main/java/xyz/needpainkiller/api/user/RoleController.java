@@ -13,7 +13,7 @@ import xyz.needpainkiller.api.authentication.AuthorizationService;
 import xyz.needpainkiller.api.authentication.model.Api;
 import xyz.needpainkiller.api.authentication.model.Division;
 import xyz.needpainkiller.api.user.dto.RoleCsv;
-import xyz.needpainkiller.api.user.dto.RoleRequests;
+import xyz.needpainkiller.api.user_hex.adapter.in.web.data.RoleRequests;
 import xyz.needpainkiller.api.user_hex.domain.error.RoleException;
 import xyz.needpainkiller.api.user_hex.domain.model.Role;
 import xyz.needpainkiller.api.user_hex.domain.model.User;

@@ -9,7 +9,7 @@ import jakarta.validation.constraints.NotBlank;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import xyz.needpainkiller.api.user.dto.UserRequests;
+import xyz.needpainkiller.api.user_hex.adapter.in.web.data.UserRequests;
 
 import java.io.IOException;
 import java.util.Map;

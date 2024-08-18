@@ -12,7 +12,7 @@ import xyz.needpainkiller.api.tenant.domain.model.Tenant;
 import xyz.needpainkiller.bootstrap.TenantBootstrapRequests;
 import xyz.needpainkiller.api.user.RoleService;
 import xyz.needpainkiller.api.user.UserService;
-import xyz.needpainkiller.api.user.dto.UserRequests;
+import xyz.needpainkiller.api.user_hex.adapter.in.web.data.UserRequests;
 import xyz.needpainkiller.api.user_hex.domain.model.Role;
 import xyz.needpainkiller.api.user_hex.domain.model.User;
 import xyz.needpainkiller.api.tenant.adapter.in.web.data.CreateTenantRequest;

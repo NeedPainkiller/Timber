@@ -1,4 +1,4 @@
-package xyz.needpainkiller.api.user.dto;
+package xyz.needpainkiller.api.user_hex.adapter.in.web.data;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;

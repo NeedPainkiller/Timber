@@ -8,7 +8,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import xyz.needpainkiller.api.user.dto.RoleRequests;
+import xyz.needpainkiller.api.user_hex.adapter.in.web.data.RoleRequests;
 
 import java.util.Map;
 
