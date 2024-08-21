@@ -1,4 +1,4 @@
-package xyz.needpainkiller.api.user.dto;
+package xyz.needpainkiller.api.user_hex.adapter.out.web.data;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import xyz.needpainkiller.api.team.model.Team;
+import xyz.needpainkiller.api.user.dto.UserProfile;
 import xyz.needpainkiller.api.user_hex.domain.model.Role;
 import xyz.needpainkiller.api.user_hex.domain.model.User;
 
