@@ -1,4 +1,4 @@
-package xyz.needpainkiller.api.user.dto;
+package xyz.needpainkiller.api.user_hex.adapter.out.web.data;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
