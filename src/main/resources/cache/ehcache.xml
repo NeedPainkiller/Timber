@@ -41,7 +41,7 @@
     </cache>
     <cache alias="UserProfile" uses-template="cacheTemplate">
         <key-type>java.lang.String</key-type>
-        <value-type>xyz.needpainkiller.api.user.dto.UserProfile</value-type>
+        <value-type>xyz.needpainkiller.api.user_hex.adapter.out.web.data.UserProfile</value-type>
     </cache>
     <cache alias="UserProfileList" uses-template="cacheTemplate">
         <key-type>java.lang.String</key-type>
