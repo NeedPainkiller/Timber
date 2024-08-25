@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import xyz.needpainkiller.api.authentication.AuthenticationService;
 import xyz.needpainkiller.api.user_hex.adapter.out.web.data.UserCsv;
-import xyz.needpainkiller.api.user.dto.UserProfile;
+import xyz.needpainkiller.api.user_hex.adapter.out.web.data.UserProfile;
 import xyz.needpainkiller.api.user_hex.adapter.in.web.data.UserRequests;
 import xyz.needpainkiller.api.user_hex.domain.error.RoleException;
 import xyz.needpainkiller.api.user_hex.domain.error.UserException;

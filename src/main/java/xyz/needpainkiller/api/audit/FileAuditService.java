@@ -3,28 +3,20 @@ package xyz.needpainkiller.api.audit;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
-import org.springframework.data.domain.Page;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import ua_parser.Parser;
 import xyz.needpainkiller.api.audit.dao.AuditLogRepo;
-import xyz.needpainkiller.api.audit.dao.AuditLogSpecification;
-import xyz.needpainkiller.api.audit.dto.AuditRequests;
-import xyz.needpainkiller.api.audit.model.AuditLog;
 import xyz.needpainkiller.api.authentication.AuthenticationService;
 import xyz.needpainkiller.api.authentication.AuthorizationService;
 import xyz.needpainkiller.api.user.UserService;
-import xyz.needpainkiller.api.user.dto.UserProfile;
-import xyz.needpainkiller.common.dto.SearchCollectionResult;
+import xyz.needpainkiller.api.user_hex.adapter.out.web.data.UserProfile;
 import xyz.needpainkiller.common.model.HttpMethod;
-import xyz.needpainkiller.helper.Inets;
 
 import javax.annotation.Nullable;
-import java.util.List;
+
 @Profile("!kafka")
 @Slf4j
 @Service

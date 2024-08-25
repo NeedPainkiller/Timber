@@ -17,7 +17,7 @@ import xyz.needpainkiller.api.team.error.TeamException;
 import xyz.needpainkiller.api.team.model.Team;
 import xyz.needpainkiller.api.user.dao.UserRepo;
 import xyz.needpainkiller.api.user.dao.UserSpecification;
-import xyz.needpainkiller.api.user.dto.UserProfile;
+import xyz.needpainkiller.api.user_hex.adapter.out.web.data.UserProfile;
 import xyz.needpainkiller.api.user_hex.adapter.in.web.data.UserRequests.SearchUserRequest;
 import xyz.needpainkiller.api.user_hex.adapter.in.web.data.UserRequests.UpsertUserRequest;
 import xyz.needpainkiller.api.user_hex.domain.model.Role;

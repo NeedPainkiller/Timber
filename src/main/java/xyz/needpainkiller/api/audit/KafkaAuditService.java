@@ -20,7 +20,7 @@ import xyz.needpainkiller.api.authentication.model.Api;
 import xyz.needpainkiller.api.authentication.model.Menu;
 import xyz.needpainkiller.api.team.model.Team;
 import xyz.needpainkiller.api.user.UserService;
-import xyz.needpainkiller.api.user.dto.UserProfile;
+import xyz.needpainkiller.api.user_hex.adapter.out.web.data.UserProfile;
 import xyz.needpainkiller.api.user_hex.domain.error.UserException;
 import xyz.needpainkiller.api.user_hex.domain.model.User;
 import xyz.needpainkiller.common.model.HttpMethod;

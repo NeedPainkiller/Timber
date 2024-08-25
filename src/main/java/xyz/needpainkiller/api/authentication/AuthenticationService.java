@@ -14,7 +14,7 @@ import xyz.needpainkiller.api.team.model.Team;
 import xyz.needpainkiller.api.tenant.domain.error.TenantException;
 import xyz.needpainkiller.api.user.RoleService;
 import xyz.needpainkiller.api.user.UserService;
-import xyz.needpainkiller.api.user.dto.UserProfile;
+import xyz.needpainkiller.api.user_hex.adapter.out.web.data.UserProfile;
 import xyz.needpainkiller.api.user_hex.domain.error.RoleException;
 import xyz.needpainkiller.api.user_hex.domain.error.UserException;
 import xyz.needpainkiller.api.user_hex.domain.model.Role;

@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import xyz.needpainkiller.api.team.model.Team;
-import xyz.needpainkiller.api.user.dto.UserProfile;
 import xyz.needpainkiller.api.user_hex.domain.model.Role;
 import xyz.needpainkiller.api.user_hex.domain.model.User;
 
