@@ -1,10 +1,8 @@
-package xyz.needpainkiller.api.user.model;
+package xyz.needpainkiller.api.user_hex.domain.model;
 
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import xyz.needpainkiller.api.user_hex.domain.model.Role;
-import xyz.needpainkiller.api.user_hex.domain.model.User;
 
 import java.io.Serial;
 import java.util.ArrayList;
