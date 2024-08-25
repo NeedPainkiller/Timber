@@ -18,7 +18,7 @@ import xyz.needpainkiller.api.user_hex.adapter.out.web.data.UserProfile;
 import xyz.needpainkiller.api.user_hex.domain.error.RoleException;
 import xyz.needpainkiller.api.user_hex.domain.error.UserException;
 import xyz.needpainkiller.api.user_hex.domain.model.Role;
-import xyz.needpainkiller.api.user.model.SecurityUser;
+import xyz.needpainkiller.api.user_hex.domain.model.SecurityUser;
 import xyz.needpainkiller.api.user_hex.domain.model.User;
 import xyz.needpainkiller.api.user_hex.domain.model.UserStatusType;
 import xyz.needpainkiller.lib.exceptions.ErrorCode;
