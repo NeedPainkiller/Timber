@@ -1,4 +1,4 @@
- package xyz.needpainkiller.api.tenant.adapter.out.persistence.entity;
+package xyz.needpainkiller.api.tenant.adapter.out.persistence.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -21,13 +21,9 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
 @JsonInclude(NON_NULL)
 // Jackson JSON 라이브러리에서 엔티티를 JSON으로 변환할 때, 지연 로딩과 관련된 프록시 객체를 처리하지 않도록 설정
 @JsonIgnoreProperties(value = {"hibernate_lazy_initializer", "handler"}, ignoreUnknown = true)
-
 @Entity
 @DynamicInsert
 @Table(name = "TENANT")
