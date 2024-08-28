@@ -3,8 +3,7 @@ package xyz.needpainkiller.api.user_hex.domain.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.CreationTimestamp;
@@ -22,48 +21,27 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @JsonInclude(NON_NULL)
-@JsonIgnoreProperties(ignoreUnknown = true)
-@Entity
-
+@JsonIgnoreProperties(value = {"hibernate_lazy_initializer", "handler"}, ignoreUnknown = true)
 @Cacheable
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@Table(name = "ACCOUNT_ROLE")
 public class Role implements GrantedAuthority, Serializable, TenantBase {
     @Serial
-    private static final long serialVersionUID = 517080619145517610L;
+    private static final long serialVersionUID = -1718921928627969489L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "_ID", unique = true, nullable = false, columnDefinition = "bigint")
     private Long id;
-    @Column(name = "TENANT_PK", nullable = false, columnDefinition = "bigint default 0")
     private Long tenantPk;
-    @Convert(converter = BooleanConverter.class)
-    @Column(name = "USE_YN", nullable = false, columnDefinition = "tinyint unsigned default 0")
     private boolean useYn;
-    @Convert(converter = BooleanConverter.class)
-    @Column(name = "IS_SYSTEM_ADMIN", nullable = false, columnDefinition = "tinyint unsigned default 0")
     private boolean isSystemAdmin;
-    @Convert(converter = BooleanConverter.class)
-    @Column(name = "IS_ADMIN", nullable = false, columnDefinition = "tinyint unsigned default 0")
     private boolean isAdmin;
-    @Convert(converter = BooleanConverter.class)
-    @Column(name = "IS_EDITABLE", nullable = false, columnDefinition = "tinyint unsigned default 1")
     private boolean isEditable;
-    @Column(name = "ROLE_NAME", nullable = false, columnDefinition = "nvarchar(256)")
     private String roleName;
-    @Column(name = "ROLE_DESCRIPTION", nullable = true, columnDefinition = "nvarchar(1024) default null")
     private String roleDescription;
-    @Column(name = "CREATED_BY", nullable = false, columnDefinition = "bigint default 0")
     private Long createdBy;
-    @Column(name = "CREATED_DATE", nullable = false, columnDefinition = "datetime2(0) default CURRENT_TIMESTAMP")
-    @CreationTimestamp
     private Timestamp createdDate;
-    @Column(name = "UPDATED_BY", nullable = false, columnDefinition = "bigint default 0")
     private Long updatedBy;
-    @Column(name = "UPDATED_DATE", nullable = false, columnDefinition = "datetime2(0) default CURRENT_TIMESTAMP")
-    @UpdateTimestamp
     private Timestamp updatedDate;
 
     @Override
