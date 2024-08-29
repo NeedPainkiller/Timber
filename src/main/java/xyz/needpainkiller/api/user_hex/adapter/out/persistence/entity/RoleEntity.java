@@ -25,8 +25,6 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 @JsonInclude(NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
-
-@Cacheable
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Table(name = "ACCOUNT_ROLE")
 public class RoleEntity implements GrantedAuthority, Serializable, TenantBase {
