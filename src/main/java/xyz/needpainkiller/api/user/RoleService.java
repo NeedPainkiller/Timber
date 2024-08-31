@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import xyz.needpainkiller.api.authentication.AuthorizationService;
 import xyz.needpainkiller.api.tenant.domain.error.TenantException;
-import xyz.needpainkiller.api.user.dao.RoleRepo;
+import xyz.needpainkiller.api.user_hex.adapter.out.persistence.repository.RoleRepo;
 import xyz.needpainkiller.api.user.dao.RoleSpecification;
 import xyz.needpainkiller.api.user.dao.UserRoleMapRepo;
 import xyz.needpainkiller.api.user_hex.adapter.in.web.data.RoleRequests;
