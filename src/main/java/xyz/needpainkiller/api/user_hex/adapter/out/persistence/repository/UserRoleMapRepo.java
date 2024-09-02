@@ -1,4 +1,4 @@
-package xyz.needpainkiller.api.user.dao;
+package xyz.needpainkiller.api.user_hex.adapter.out.persistence.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import xyz.needpainkiller.api.user_hex.domain.model.UserRoleMap;
