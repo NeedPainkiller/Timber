@@ -1,4 +1,4 @@
-package xyz.needpainkiller.api.user.dao;
+package xyz.needpainkiller.api.user_hex.adapter.out.persistence.repository;
 
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
