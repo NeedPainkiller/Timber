@@ -18,7 +18,7 @@ import xyz.needpainkiller.api.authentication.model.Api;
 import xyz.needpainkiller.api.authentication.model.ApiRoleMap;
 import xyz.needpainkiller.api.authentication.model.Division;
 import xyz.needpainkiller.api.authentication.model.Menu;
-import xyz.needpainkiller.api.user.dao.RoleRepo;
+import xyz.needpainkiller.api.user_hex.adapter.out.persistence.repository.RoleRepo;
 import xyz.needpainkiller.api.user_hex.domain.error.RoleException;
 import xyz.needpainkiller.api.user_hex.domain.model.Role;
 import xyz.needpainkiller.common.model.HttpMethod;
