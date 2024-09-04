@@ -44,7 +44,6 @@ import static xyz.needpainkiller.api.user_hex.domain.error.UserErrorCode.USER_NO
 @Service
 public class FindUserService {
 
-    private Long SYSTEM_USER = 1L;
 
     @Autowired
     private UserRepo userRepo;
@@ -52,8 +51,6 @@ public class FindUserService {
     private RoleService roleService;
     @Autowired
     private TeamService teamService;
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @PostConstruct
     public void init() {
@@ -242,178 +239,5 @@ public class FindUserService {
         List<UserProfile> UserProfileList = mapUserProfileList(userList);
         long total = userPage.getTotalElements();
         return SearchCollectionResult.<UserProfile>builder().collection(UserProfileList).foundRows(total).build();
-    }
-
-
-    public void increaseLoginFailedCnt(Long userPk) {
-        User user = selectUser(userPk);
-        user.setLoginFailedCnt(user.getLoginFailedCnt() + 1);
-        userRepo.save(user);
-    }
-
-
-    public void updateLastLoginDate(Long userPk) {
-        User user = selectUser(userPk);
-        user.setLoginFailedCnt(0);
-        user.setLastLoginDate(TimeHelper.now());
-        userRepo.save(user);
-    }
-
-
-    @Transactional
-    @Caching(evict = {
-            @CacheEvict(value = "User", allEntries = true),
-            @CacheEvict(value = "UserList", allEntries = true),
-            @CacheEvict(value = "UserRole", allEntries = true)
-    })
-    public User createUser(UpsertUserRequest param, List<Role> roleList, User requester) throws UserException {
-        Long requesterPk = requester.getId();
-        Long tenantPk = param.getTenantPk();
-
-        String userId = param.getUserId();
-        String userEmail = param.getUserEmail();
-        String userNm = param.getUserName();
-        String userPwd = param.getUserPwd();
-
-        Long teamPk = param.getTeamPk();
-        teamService.selectTeam(teamPk);
-
-        ValidationHelper.checkUserData(userId, userNm, userPwd);
-        ValidationHelper.checkAnyRequiredEmpty(userEmail, userNm, userId);
-
-        if (isUserIdExist(tenantPk, userId)) {
-            throw new UserException(USER_ALREADY_EXIST);
-        }
-
-        if (roleList.stream().map(Role::getTenantPk).anyMatch(roleTenantPk -> !Objects.equals(roleTenantPk, tenantPk))) {
-            throw new TenantException(TENANT_CONFLICT);
-        }
-
-        User user = new User();
-        user.setTenantPk(tenantPk);
-        user.setUseYn(true);
-        user.setUserId(userId);
-        user.setUserEmail(userEmail);
-        user.setUserName(userNm);
-        user.setUserPwd(bCryptPasswordEncoder.encode(userPwd));
-        user.setTeamPk(teamPk);
-        user.setUserStatus(param.getUserStatusType());
-        user.setCreatedBy(requesterPk);
-        user.setCreatedDate(TimeHelper.now());
-        user.setUpdatedBy(requesterPk);
-        user.setUpdatedDate(TimeHelper.now());
-        user.setLoginFailedCnt(0);
-        Map<String, Serializable> data = param.getData();
-        user.setData(Objects.requireNonNullElseGet(data, HashMap::new));
-
-        user = userRepo.save(user);
-        roleService.upsertUserRole(user.getId(), roleList);
-        return user;
-    }
-
-
-    @Transactional
-    @Caching(evict = {
-            @CacheEvict(value = "User", allEntries = true),
-            @CacheEvict(value = "UserList", allEntries = true),
-            @CacheEvict(value = "UserRole", allEntries = true)
-    })
-    public User updateUser(Long userPk, UpsertUserRequest param, List<Role> roleList, User requester) {
-        String userId = param.getUserId();
-        String userEmail = param.getUserEmail();
-        String userName = param.getUserName();
-        String userPwd = param.getUserPwd();
-
-        Long requesterPk = requester.getId();
-        Long tenantPk = param.getTenantPk();
-
-        Long teamPk = param.getTeamPk();
-        teamService.selectTeam(teamPk);
-
-        ValidationHelper.checkUserData(userId, userName);
-
-        if (roleList.stream().map(Role::getTenantPk).anyMatch(roleTenantPk -> !Objects.equals(roleTenantPk, tenantPk))) {
-            throw new TenantException(TENANT_CONFLICT);
-        }
-
-        User user = selectUser(userPk);
-
-        if (!user.getTenantPk().equals(tenantPk)) {
-            throw new TenantException(TENANT_CONFLICT);
-        }
-
-        user.setTenantPk(tenantPk);
-        user.setUseYn(true);
-        user.setUserId(userId);
-        user.setUserEmail(userEmail);
-        user.setUserName(userName);
-        user.setTeamPk(teamPk);
-        user.setUserStatus(param.getUserStatusType());
-        user.setUpdatedBy(requesterPk);
-        user.setUpdatedDate(TimeHelper.now());
-        user.setLoginFailedCnt(0);
-        user.setData(param.getData());
-        boolean updatePassword = !Strings.isBlank(userPwd);
-        if (updatePassword) {
-            updatePassword(userPk, requesterPk, userPwd);
-        }
-        user = userRepo.save(user);
-        roleService.upsertUserRole(userPk, roleList);
-        return user;
-    }
-
-
-    @Transactional
-    @Caching(evict = {
-            @CacheEvict(value = "User", allEntries = true),
-            @CacheEvict(value = "UserList", allEntries = true),
-            @CacheEvict(value = "UserRole", allEntries = true)
-    })
-    public void updatePassword(Long userPk, Long requesterPk, String userPwd) {
-        ValidationHelper.checkPassword(userPwd);
-        User user = selectUser(userPk);
-        user.setUserPwd(bCryptPasswordEncoder.encode(userPwd));
-        user.setUpdatedBy(requesterPk);
-        user.setUpdatedDate(TimeHelper.now());
-        userRepo.save(user);
-    }
-
-
-    @Transactional
-    @Caching(evict = {
-            @CacheEvict(value = "User", allEntries = true),
-            @CacheEvict(value = "UserList", allEntries = true),
-            @CacheEvict(value = "UserRole", allEntries = true)
-    })
-    public void deleteUser(Long tenantPk, Long userPk, User requester) {
-        Long requesterPk = requester.getId();
-
-        User user = selectUser(userPk);
-        if (!user.getTenantPk().equals(tenantPk)) {
-            throw new TenantException(TENANT_CONFLICT);
-        }
-
-        user.setUseYn(false);
-        user.setUserId(user.getUserId() + "-" + UUID.randomUUID());
-        user.setUserStatus(UserStatusType.NOT_USED);
-        user.setUpdatedBy(requesterPk);
-        user.setUpdatedDate(TimeHelper.now());
-        userRepo.save(user);
-        roleService.deleteUserRole(userPk);
-    }
-
-
-    @Transactional
-    @Caching(evict = {
-            @CacheEvict(value = "User", allEntries = true),
-            @CacheEvict(value = "UserList", allEntries = true),
-            @CacheEvict(value = "UserRole", allEntries = true)
-    })
-    public void enableUser(Long userPk) {
-        User user = selectUser(userPk);
-        user.setUserStatus(UserStatusType.OK);
-        user.setUpdatedBy(SYSTEM_USER);
-        user.setUpdatedDate(TimeHelper.now());
-        userRepo.save(user);
     }
 }
