@@ -2,47 +2,36 @@ package xyz.needpainkiller.api.user_hex.domain.service;
 
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import xyz.needpainkiller.api.team.TeamService;
 import xyz.needpainkiller.api.team.error.TeamException;
 import xyz.needpainkiller.api.team.model.Team;
-import xyz.needpainkiller.api.tenant.domain.error.TenantException;
 import xyz.needpainkiller.api.tenant.domain.model.Tenant;
 import xyz.needpainkiller.api.user.RoleService;
 import xyz.needpainkiller.api.user_hex.adapter.in.web.data.UserRequests.SearchUserRequest;
-import xyz.needpainkiller.api.user_hex.adapter.in.web.data.UserRequests.UpsertUserRequest;
 import xyz.needpainkiller.api.user_hex.adapter.out.persistence.repository.UserRepo;
 import xyz.needpainkiller.api.user_hex.adapter.out.persistence.repository.UserSpecification;
 import xyz.needpainkiller.api.user_hex.adapter.out.web.data.UserProfile;
+import xyz.needpainkiller.api.user_hex.application.port.in.FindUserUseCase;
 import xyz.needpainkiller.api.user_hex.domain.error.UserException;
 import xyz.needpainkiller.api.user_hex.domain.model.Role;
 import xyz.needpainkiller.api.user_hex.domain.model.User;
 import xyz.needpainkiller.api.user_hex.domain.model.UserRoleMap;
-import xyz.needpainkiller.api.user_hex.domain.model.UserStatusType;
 import xyz.needpainkiller.common.dto.SearchCollectionResult;
-import xyz.needpainkiller.helper.TimeHelper;
-import xyz.needpainkiller.helper.ValidationHelper;
 
-import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static xyz.needpainkiller.api.tenant.domain.error.TenantErrorCode.TENANT_CONFLICT;
-import static xyz.needpainkiller.api.user_hex.domain.error.UserErrorCode.USER_ALREADY_EXIST;
 import static xyz.needpainkiller.api.user_hex.domain.error.UserErrorCode.USER_NOT_EXIST;
+import static xyz.needpainkiller.api.user_hex.domain.model.User.SYSTEM_USER;
 
 @Slf4j
 @Service
-public class FindUserService {
+public class FindUserService implements FindUserUseCase {
 
 
     @Autowired
@@ -59,17 +48,20 @@ public class FindUserService {
     }
 
 
+    @Override
     @Cacheable(value = "User", key = "'selectSystemUser'")
     public User selectSystemUser() {
         return selectUser(SYSTEM_USER);
     }
 
 
+    @Override
     public Long selectSystemUserPk() {
         return SYSTEM_USER;
     }
 
 
+    @Override
     public User selectUser(Long userPk) throws UserException {
         User user = userRepo.findUserById(userPk);
         if (user == null) {
@@ -79,6 +71,7 @@ public class FindUserService {
     }
 
 
+    @Override
     public List<User> selectUserByUserId(String userId) throws UserException {
         userId = userId.trim();
         List<User> userList = userRepo.findUserByUserId(userId);
@@ -89,12 +82,14 @@ public class FindUserService {
     }
 
 
+    @Override
     public User selectUserByUserId(Tenant tenant, String userId) throws UserException {
         Long tenantPk = tenant.getId();
         return selectUserByUserId(tenantPk, userId);
     }
 
 
+    @Override
     public User selectUserByUserId(Long tenantPk, String userId) throws UserException {
         userId = userId.trim();
         List<User> userList = userRepo.findUserByUserId(userId);
@@ -106,6 +101,7 @@ public class FindUserService {
     }
 
 
+    @Override
     public boolean isUserIdExist(Long tenantPk, String userId) {
         userId = userId.trim();
         List<User> userList = userRepo.findUserByUserId(userId);
@@ -116,6 +112,7 @@ public class FindUserService {
     }
 
 
+    @Override
     @Cacheable(value = "UserProfile", key = "'selectUserProfile-' + #p0", unless = "#result == null")
     public UserProfile selectUserProfile(Long userPk) throws UserException {
         User user = userRepo.findUserById(userPk);
@@ -126,6 +123,7 @@ public class FindUserService {
     }
 
 
+    @Override
     @Cacheable(value = "UserProfile", key = "'selectUserProfile-' + #p0.hashCode()", unless = "#result == null")
     public UserProfile selectUserProfile(User user) throws UserException {
         Long userPk = user.getId();
@@ -141,24 +139,28 @@ public class FindUserService {
     }
 
 
+    @Override
     @Cacheable(value = "UserList", key = "'selectUserList'")
     public List<User> selectUserList() {
         return userRepo.findAll();
     }
 
 
+    @Override
     @Cacheable(value = "UserList", key = "'selectUserList-' + #p0")
     public List<User> selectUserList(Long tenantPk) {
         return userRepo.findAll().stream().filter(user -> user.filterByTenant(tenantPk)).toList();
     }
 
 
+    @Override
     @Cacheable(value = "UserList", key = "'selectUserListByPkList-' + #p0.hashCode()")
     public List<User> selectUserListByPkList(List<Long> userPkList) {
         return userRepo.findAllByIdIn(userPkList);
     }
 
 
+    @Override
     @Cacheable(value = "UserList", key = "'selectUserListByRole-' + #p0")
     public List<User> selectUserListByRole(Long rolePk) {
         List<Long> userPkList = roleService.selectUserPkListByRolePk(rolePk);
@@ -166,6 +168,7 @@ public class FindUserService {
     }
 
 
+    @Override
     @Cacheable(value = "UserList", key = "'selectUserListByRoleList-' + #p0.hashCode()")
     public List<User> selectUserListByRoleList(List<Role> roleList) {
         List<Long> rolePkList = roleList.stream().map(Role::getId).toList();
@@ -174,17 +177,20 @@ public class FindUserService {
     }
 
 
+    @Override
     public List<User> selectUserListByIdLike(String userId) {
         return selectUserList().stream().filter(User::isAvailable).filter(user -> user.getUserId().startsWith(userId)).toList();
     }
 
 
+    @Override
     @Cacheable(value = "UserList", key = "'selectUserListBySuperAdminRole'")
     public List<User> selectUserListBySuperAdminRole() {
         return selectUserListByRole(RoleService.SUPER_ADMIN);
     }
 
 
+    @Override
     @Cacheable(value = "UserProfileList", key = "'mapUserProfileListByUserPkList-' + #p0.hashCode()")
     public List<UserProfile> mapUserProfileListByUserPkList(List<Long> userPkList) {
         List<User> userList = selectUserListByPkList(userPkList);
@@ -192,6 +198,7 @@ public class FindUserService {
     }
 
 
+    @Override
     @Cacheable(value = "UserProfileList", key = "'mapUserProfileList-' + #p0.hashCode()")
     public List<UserProfile> mapUserProfileList(List<User> userList) {
         Map<Long, Team> teamMap = teamService.selectTeamMap();
@@ -211,18 +218,21 @@ public class FindUserService {
     }
 
 
+    @Override
     public Map<Long, User> selectUserMap() {
         List<User> userList = selectUserList();
         return userList.stream().collect(Collectors.toMap(User::getId, t -> t));
     }
 
 
+    @Override
     public Map<Long, User> selectUserMapByPkList(List<Long> userPkList) {
         List<User> userList = selectUserListByPkList(userPkList);
         return userList.stream().collect(Collectors.toMap(User::getId, t -> t));
     }
 
 
+    @Override
     public SearchCollectionResult<User> selectUserList(SearchUserRequest param) {
         Specification<User> specification = Specification.where(UserSpecification.search(param));
         Page<User> userPage = userRepo.findAll(specification, param.pageOf());
@@ -232,6 +242,7 @@ public class FindUserService {
     }
 
 
+    @Override
     public SearchCollectionResult<UserProfile> selectUserProfileList(SearchUserRequest param) {
         Specification<User> specification = Specification.where(UserSpecification.search(param));
         Page<User> userPage = userRepo.findAll(specification, param.pageOf());

@@ -34,7 +34,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 @Table(name = "ACCOUNT_USER")
 public class User implements Serializable, TenantBase {
 
-    private Long SYSTEM_USER = 1L;
+    public final static Long SYSTEM_USER = 1L;
 
     @Serial
     private static final long serialVersionUID = -8737333234871506911L;
