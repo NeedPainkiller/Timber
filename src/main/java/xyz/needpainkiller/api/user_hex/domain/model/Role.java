@@ -28,6 +28,9 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 @JsonIgnoreProperties(value = {"hibernate_lazy_initializer", "handler"}, ignoreUnknown = true)
 @Cacheable
 public class Role implements GrantedAuthority, Serializable, TenantBase {
+
+    public static final Long SUPER_ADMIN = 1L;
+
     @Serial
     private static final long serialVersionUID = -1718921928627969489L;
 

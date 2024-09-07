@@ -30,16 +30,13 @@ import static xyz.needpainkiller.lib.exceptions.CommonErrorCode.*;
 
 @Slf4j
 @Service
-public class RoleService {
-    public static Long SUPER_ADMIN = 1L;
-
+public class FindRoleService {
     @Autowired
     private AuthorizationService authorizationService;
     @Autowired
     private RoleRepo roleRepo;
     @Autowired
     private UserRoleMapRepo userRoleMapRepo;
-
 
     public boolean isRoleExist(Long rolePk) {
         return roleRepo.findAll().stream().filter(Role::isAvailable).map(Role::getId).anyMatch(integer -> integer.equals(rolePk));
@@ -183,109 +180,5 @@ public class RoleService {
         if (!hasAdminRole(authority) && hasAdminRole(requestRoleList)) {// Admin 권한이 없으나, Admin 을 추가하려는 경우
             throw new RoleException(ROLE_CAN_NOT_MANAGE_ADMIN);
         }
-    }
-
-
-    @Transactional
-    @Caching(evict = {@CacheEvict(value = "UserRole", allEntries = true), @CacheEvict(value = "Role", allEntries = true), @CacheEvict(value = "RoleList", allEntries = true), @CacheEvict(value = "RoleAuthorityList", allEntries = true)})
-    public Role createRole(RoleRequests.UpsertRoleRequest param, User requester) {
-        String roleName = param.getName();
-
-        Long requesterPk = requester.getId();
-        Long tenantPk = param.getTenantPk();
-
-        ValidationHelper.checkAnyRequiredEmpty(roleName);
-        if (isRoleExist(tenantPk, roleName)) {
-            throw new RoleException(ROLE_ALREADY_EXIST);
-        }
-
-        Role role = new Role();
-        role.setTenantPk(tenantPk);
-        role.setUseYn(true);
-        role.setRoleName(roleName);
-        role.setRoleDescription(param.getDescription());
-        role.setSystemAdmin(false);
-        role.setAdmin(param.getIsAdmin());
-        role.setEditable(true);
-        role.setCreatedBy(requesterPk);
-        role.setUpdatedBy(requesterPk);
-        role = roleRepo.save(role);
-        authorizationService.upsertApiRole(role, param.getApiList());
-        return role;
-    }
-
-
-    @Transactional
-    @Caching(evict = {@CacheEvict(value = "UserRole", allEntries = true), @CacheEvict(value = "Role", allEntries = true), @CacheEvict(value = "RoleList", allEntries = true), @CacheEvict(value = "RoleAuthorityList", allEntries = true)})
-    public Role updateRole(Long rolePk, RoleRequests.UpsertRoleRequest param, User requester) {
-        Role role = selectRoleByRolePk(rolePk);
-
-        Long requesterPk = requester.getId();
-        Long tenantPk = param.getTenantPk();
-
-        if (!role.isUseYn()) {
-            throw new RoleException(ROLE_DELETED);
-        }
-        if (!role.isEditable()) {
-            throw new RoleException(ROLE_CAN_NOT_EDITABLE);
-        }
-        if (!role.getTenantPk().equals(tenantPk)) {
-            throw new TenantException(TENANT_CONFLICT);
-        }
-
-        role.setTenantPk(tenantPk);
-        role.setUseYn(true);
-        role.setRoleName(param.getName());
-        role.setRoleDescription(param.getDescription());
-        role.setSystemAdmin(false);
-        role.setAdmin(param.getIsAdmin());
-        role.setEditable(true);
-        role.setUpdatedBy(requesterPk);
-        role = roleRepo.save(role);
-        authorizationService.upsertApiRole(role, param.getApiList());
-        return role;
-    }
-
-
-    @Transactional
-    @Caching(evict = {@CacheEvict(value = "UserRole", allEntries = true), @CacheEvict(value = "Role", allEntries = true), @CacheEvict(value = "RoleList", allEntries = true), @CacheEvict(value = "RoleAuthorityList", allEntries = true)})
-    public void deleteRole(Long tenantPk, Long rolePk, User requester) {
-        Long requesterPk = requester.getId();
-        Role role = selectRoleByRolePk(rolePk);
-        if (!role.isUseYn()) {
-            throw new RoleException(ROLE_DELETED);
-        }
-        if (!role.isEditable()) {
-            throw new RoleException(ROLE_CAN_NOT_EDITABLE);
-        }
-        if (!role.getTenantPk().equals(tenantPk)) {
-            throw new TenantException(TENANT_CONFLICT);
-        }
-        role.setUseYn(false);
-        role.setUpdatedBy(requesterPk);
-        role.setUpdatedDate(TimeHelper.now());
-        roleRepo.save(role);
-    }
-
-
-    @Transactional
-    @Caching(evict = {@CacheEvict(value = "UserRole", allEntries = true), @CacheEvict(value = "Role", allEntries = true), @CacheEvict(value = "RoleList", allEntries = true), @CacheEvict(value = "RoleAuthorityList", allEntries = true)})
-    public void upsertUserRole(Long userPk, List<Role> roleList) {
-        this.deleteUserRole(userPk);
-        if (roleList == null) return;
-        roleList.forEach(role -> {
-            UserRoleMap userRoleMap = new UserRoleMap();
-            userRoleMap.setUserPk(userPk);
-            userRoleMap.setRolePk(role.getId());
-            userRoleMapRepo.save(userRoleMap);
-        });
-    }
-
-
-    @Transactional
-    @Caching(evict = {@CacheEvict(value = "UserRole", allEntries = true), @CacheEvict(value = "Role", allEntries = true), @CacheEvict(value = "RoleList", allEntries = true), @CacheEvict(value = "RoleAuthorityList", allEntries = true)})
-    public void deleteUserRole(Long userPk) {
-        List<UserRoleMap> userRoleMapList = userRoleMapRepo.findByUserPk(userPk);
-        userRoleMapRepo.deleteAll(userRoleMapList);
     }
 }
