@@ -24,7 +24,7 @@ import static xyz.needpainkiller.lib.exceptions.CommonErrorCode.*;
 
 @Slf4j
 @Service
-public class FindRoleService implements FindRoleUseCase, FindRoleUseCase {
+public class FindRoleService implements FindRoleUseCase {
     @Autowired
     private AuthorizationService authorizationService;
     @Autowired
