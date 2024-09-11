@@ -5,36 +5,25 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
-import org.springframework.data.domain.Page;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import xyz.needpainkiller.api.team.TeamService;
-import xyz.needpainkiller.api.team.error.TeamException;
-import xyz.needpainkiller.api.team.model.Team;
 import xyz.needpainkiller.api.tenant.domain.error.TenantException;
-import xyz.needpainkiller.api.tenant.domain.model.Tenant;
 import xyz.needpainkiller.api.user.RoleService;
-import xyz.needpainkiller.api.user_hex.adapter.in.web.data.UserRequests.SearchUserRequest;
 import xyz.needpainkiller.api.user_hex.adapter.in.web.data.UserRequests.UpsertUserRequest;
 import xyz.needpainkiller.api.user_hex.adapter.out.persistence.repository.UserRepo;
-import xyz.needpainkiller.api.user_hex.adapter.out.persistence.repository.UserSpecification;
-import xyz.needpainkiller.api.user_hex.adapter.out.web.data.UserProfile;
+import xyz.needpainkiller.api.user_hex.application.port.in.ManageUserUseCase;
 import xyz.needpainkiller.api.user_hex.domain.error.UserException;
 import xyz.needpainkiller.api.user_hex.domain.model.Role;
 import xyz.needpainkiller.api.user_hex.domain.model.User;
-import xyz.needpainkiller.api.user_hex.domain.model.UserRoleMap;
 import xyz.needpainkiller.api.user_hex.domain.model.UserStatusType;
-import xyz.needpainkiller.common.dto.SearchCollectionResult;
 import xyz.needpainkiller.helper.TimeHelper;
 import xyz.needpainkiller.helper.ValidationHelper;
 
 import java.io.Serializable;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static xyz.needpainkiller.api.tenant.domain.error.TenantErrorCode.TENANT_CONFLICT;
 import static xyz.needpainkiller.api.user_hex.domain.error.UserErrorCode.USER_ALREADY_EXIST;
@@ -42,7 +31,7 @@ import static xyz.needpainkiller.api.user_hex.domain.error.UserErrorCode.USER_NO
 
 @Slf4j
 @Service
-public class ManageUserService {
+public class ManageUserService implements ManageUserUseCase {
 
 
     @Autowired
@@ -61,6 +50,7 @@ public class ManageUserService {
     }
 
 
+    @Override
     public void increaseLoginFailedCnt(Long userPk) {
         User user = userRepo.findUserById(userPk);
         if (user == null) {
@@ -71,6 +61,7 @@ public class ManageUserService {
     }
 
 
+    @Override
     public void updateLastLoginDate(Long userPk) {
         User user = userRepo.findUserById(userPk);
         if (user == null) {
@@ -88,6 +79,7 @@ public class ManageUserService {
             @CacheEvict(value = "UserList", allEntries = true),
             @CacheEvict(value = "UserRole", allEntries = true)
     })
+    @Override
     public User createUser(UpsertUserRequest param, List<Role> roleList, User requester) throws UserException {
         Long requesterPk = requester.getId();
         Long tenantPk = param.getTenantPk();
@@ -146,6 +138,7 @@ public class ManageUserService {
             @CacheEvict(value = "UserList", allEntries = true),
             @CacheEvict(value = "UserRole", allEntries = true)
     })
+    @Override
     public User updateUser(Long userPk, UpsertUserRequest param, List<Role> roleList, User requester) {
         String userId = param.getUserId();
         String userEmail = param.getUserEmail();
@@ -200,6 +193,7 @@ public class ManageUserService {
             @CacheEvict(value = "UserList", allEntries = true),
             @CacheEvict(value = "UserRole", allEntries = true)
     })
+    @Override
     public void updatePassword(Long userPk, Long requesterPk, String userPwd) {
         ValidationHelper.checkPassword(userPwd);
         User user = userRepo.findUserById(userPk);
@@ -219,6 +213,7 @@ public class ManageUserService {
             @CacheEvict(value = "UserList", allEntries = true),
             @CacheEvict(value = "UserRole", allEntries = true)
     })
+    @Override
     public void deleteUser(Long tenantPk, Long userPk, User requester) {
         Long requesterPk = requester.getId();
 
@@ -246,6 +241,7 @@ public class ManageUserService {
             @CacheEvict(value = "UserList", allEntries = true),
             @CacheEvict(value = "UserRole", allEntries = true)
     })
+    @Override
     public void enableUser(Long userPk) {
         User user = userRepo.findUserById(userPk);
         if (user == null) {
