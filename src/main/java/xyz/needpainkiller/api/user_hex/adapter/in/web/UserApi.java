@@ -1,4 +1,4 @@
-package xyz.needpainkiller.api.user;
+package xyz.needpainkiller.api.user_hex.adapter.in.web;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
