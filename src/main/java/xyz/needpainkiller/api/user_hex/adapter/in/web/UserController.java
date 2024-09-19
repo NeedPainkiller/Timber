@@ -1,4 +1,4 @@
-package xyz.needpainkiller.api.user;
+package xyz.needpainkiller.api.user_hex.adapter.in.web;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -9,7 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import xyz.needpainkiller.api.authentication.AuthenticationService;
-import xyz.needpainkiller.api.user_hex.adapter.in.web.UserApi;
+import xyz.needpainkiller.api.user.RoleService;
+import xyz.needpainkiller.api.user.UserService;
 import xyz.needpainkiller.api.user_hex.adapter.out.web.data.UserCsv;
 import xyz.needpainkiller.api.user_hex.adapter.out.web.data.UserProfile;
 import xyz.needpainkiller.api.user_hex.adapter.in.web.data.UserRequests;
