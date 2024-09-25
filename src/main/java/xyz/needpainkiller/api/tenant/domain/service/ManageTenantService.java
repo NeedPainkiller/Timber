@@ -5,16 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.transaction.annotation.Transactional;
-import xyz.needpainkiller.api.team.TeamService;
-import xyz.needpainkiller.api.team.dto.TeamRequests;
-import xyz.needpainkiller.api.team.model.Team;
-import xyz.needpainkiller.api.tenant.domain.model.Tenant;
-import xyz.needpainkiller.bootstrap.TenantBootstrapRequests;
-import xyz.needpainkiller.api.user.RoleService;
-import xyz.needpainkiller.api.user.UserService;
-import xyz.needpainkiller.api.user_hex.adapter.in.web.data.UserRequests;
-import xyz.needpainkiller.api.user_hex.domain.model.Role;
-import xyz.needpainkiller.api.user_hex.domain.model.User;
 import xyz.needpainkiller.api.tenant.adapter.in.web.data.CreateTenantRequest;
 import xyz.needpainkiller.api.tenant.adapter.in.web.data.UpdateTenantRequest;
 import xyz.needpainkiller.api.tenant.adapter.in.web.data.UpsertTenantRequest;
@@ -22,8 +12,9 @@ import xyz.needpainkiller.api.tenant.application.port.in.ManageTenantUseCase;
 import xyz.needpainkiller.api.tenant.application.port.out.TenantEventPublisher;
 import xyz.needpainkiller.api.tenant.application.port.out.TenantOutputPort;
 import xyz.needpainkiller.api.tenant.domain.error.TenantException;
+import xyz.needpainkiller.api.tenant.domain.model.Tenant;
+import xyz.needpainkiller.api.user_hex.domain.model.User;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -40,11 +31,11 @@ public class ManageTenantService implements ManageTenantUseCase {
 
     private final TenantEventPublisher tenantEventPublisher;
 
-    private final UserService userService;
-
-    private final RoleService roleService;
-
-    private final TeamService teamService;
+//    private final UserService userService;
+//
+//    private final RoleService roleService;
+//
+//    private final TeamService teamService;
 
 
     private static void checkTenantParam(UpsertTenantRequest param) {
@@ -179,7 +170,7 @@ public class ManageTenantService implements ManageTenantUseCase {
         tenantEventPublisher.publishDeleteEvent(tenant);
     }
 
-    public void createTenantBootstrapSet(Tenant tenant, CreateTenantRequest param, User requester) {
+/*    public void createTenantBootstrapSet(Tenant tenant, CreateTenantRequest param, User requester) {
         Long tenantPk = tenant.getId();
         TeamRequests.UpsertTeamRequest teamParam = new TeamRequests.UpsertTeamRequest();
         teamParam.setTenantPk(tenantPk);
@@ -206,7 +197,7 @@ public class ManageTenantService implements ManageTenantUseCase {
         userParam.setUserName(userName);
         userParam.setUserPwd(password);
         userService.createUser(userParam, roleList, requester);
-    }
+    }*/
 
 
     @Transactional

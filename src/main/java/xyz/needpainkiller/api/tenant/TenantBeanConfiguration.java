@@ -3,9 +3,6 @@ package xyz.needpainkiller.api.tenant;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import xyz.needpainkiller.api.team.TeamService;
-import xyz.needpainkiller.api.user.RoleService;
-import xyz.needpainkiller.api.user.UserService;
 import xyz.needpainkiller.api.tenant.adapter.out.event.TenantEventPublisherAdapter;
 import xyz.needpainkiller.api.tenant.adapter.out.persistence.TenantPersistenceAdapter;
 import xyz.needpainkiller.api.tenant.adapter.out.persistence.mapper.TenantPersistenceMapper;
@@ -32,8 +29,7 @@ public class TenantBeanConfiguration {
     }
 
     @Bean
-    public ManageTenantService manageTenantService(TenantPersistenceAdapter tenantPersistenceAdapter, TenantEventPublisherAdapter tenantEventPublisherAdapter,
-                                                   UserService userService, RoleService roleService, TeamService teamService) {
-        return new ManageTenantService(tenantPersistenceAdapter, tenantEventPublisherAdapter, userService, roleService, teamService);
+    public ManageTenantService manageTenantService(TenantPersistenceAdapter tenantPersistenceAdapter, TenantEventPublisherAdapter tenantEventPublisherAdapter) {
+        return new ManageTenantService(tenantPersistenceAdapter, tenantEventPublisherAdapter);
     }
 }
