@@ -1,7 +1,7 @@
 package xyz.needpainkiller.bootstrap;
 
 import lombok.*;
-import xyz.needpainkiller.api.user_hex.adapter.in.web.data.RoleRequests;
+import xyz.needpainkiller.api.user.adapter.in.web.data.RoleRequests;
 
 import java.io.Serial;
 import java.io.Serializable;

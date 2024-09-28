@@ -1,15 +1,12 @@
 package xyz.needpainkiller.service;
 
 import lombok.Getter;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import xyz.needpainkiller.api.user_hex.domain.model.Role;
-import xyz.needpainkiller.api.user_hex.domain.model.User;
+import xyz.needpainkiller.api.user.domain.model.Role;
+import xyz.needpainkiller.api.user.domain.model.User;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 

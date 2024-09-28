@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xyz.needpainkiller.api.tenant.domain.error.TenantException;
-import xyz.needpainkiller.api.user_hex.domain.model.User;
+import xyz.needpainkiller.api.user.domain.model.User;
 import xyz.needpainkiller.api.workingday.dao.HolidayRepo;
 import xyz.needpainkiller.api.workingday.dto.WorkingDay;
 import xyz.needpainkiller.api.workingday.dto.WorkingDayRequests;

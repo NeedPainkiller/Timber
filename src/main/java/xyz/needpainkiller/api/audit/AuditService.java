@@ -3,7 +3,7 @@ package xyz.needpainkiller.api.audit;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.scheduling.annotation.Async;
 import ua_parser.Parser;
-import xyz.needpainkiller.api.user_hex.adapter.out.web.data.UserProfile;
+import xyz.needpainkiller.api.user.adapter.out.web.data.UserProfile;
 import xyz.needpainkiller.common.model.HttpMethod;
 
 import javax.annotation.Nullable;

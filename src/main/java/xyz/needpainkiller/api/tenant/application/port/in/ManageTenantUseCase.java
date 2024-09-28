@@ -1,6 +1,6 @@
 package xyz.needpainkiller.api.tenant.application.port.in;
 
-import xyz.needpainkiller.api.user_hex.domain.model.User;
+import xyz.needpainkiller.api.user.domain.model.User;
 import xyz.needpainkiller.api.tenant.adapter.in.web.data.CreateTenantRequest;
 import xyz.needpainkiller.api.tenant.adapter.in.web.data.UpdateTenantRequest;
 import xyz.needpainkiller.api.tenant.domain.model.Tenant;

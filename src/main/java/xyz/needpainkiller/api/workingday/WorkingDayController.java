@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import xyz.needpainkiller.api.authentication.AuthenticationService;
-import xyz.needpainkiller.api.user_hex.domain.model.User;
+import xyz.needpainkiller.api.user.domain.model.User;
 import xyz.needpainkiller.api.workingday.dto.HolidayCsv;
 import xyz.needpainkiller.api.workingday.dto.WorkingDay;
 import xyz.needpainkiller.api.workingday.dto.WorkingDayRequests;

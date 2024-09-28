@@ -3,7 +3,7 @@ package xyz.needpainkiller.helper;
 import lombok.experimental.UtilityClass;
 import org.apache.logging.log4j.util.Strings;
 import xyz.needpainkiller.api.authentication.error.PasswordException;
-import xyz.needpainkiller.api.user_hex.domain.error.UserException;
+import xyz.needpainkiller.api.user.domain.error.UserException;
 import xyz.needpainkiller.lib.exceptions.BusinessException;
 
 import java.util.regex.Matcher;

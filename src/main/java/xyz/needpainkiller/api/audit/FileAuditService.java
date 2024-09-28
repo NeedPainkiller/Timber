@@ -12,7 +12,7 @@ import xyz.needpainkiller.api.audit.dao.AuditLogRepo;
 import xyz.needpainkiller.api.authentication.AuthenticationService;
 import xyz.needpainkiller.api.authentication.AuthorizationService;
 import xyz.needpainkiller.api.user.UserService;
-import xyz.needpainkiller.api.user_hex.adapter.out.web.data.UserProfile;
+import xyz.needpainkiller.api.user.adapter.out.web.data.UserProfile;
 import xyz.needpainkiller.common.model.HttpMethod;
 
 import javax.annotation.Nullable;

@@ -15,7 +15,7 @@ import xyz.needpainkiller.api.team.error.TeamException;
 import xyz.needpainkiller.api.team.model.Team;
 import xyz.needpainkiller.api.team.model.TeamLevel;
 import xyz.needpainkiller.api.tenant.domain.error.TenantException;
-import xyz.needpainkiller.api.user_hex.domain.model.User;
+import xyz.needpainkiller.api.user.domain.model.User;
 
 import java.util.*;
 import java.util.function.Predicate;

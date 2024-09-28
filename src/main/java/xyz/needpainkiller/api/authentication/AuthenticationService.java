@@ -14,13 +14,13 @@ import xyz.needpainkiller.api.team.model.Team;
 import xyz.needpainkiller.api.tenant.domain.error.TenantException;
 import xyz.needpainkiller.api.user.RoleService;
 import xyz.needpainkiller.api.user.UserService;
-import xyz.needpainkiller.api.user_hex.adapter.out.web.data.UserProfile;
-import xyz.needpainkiller.api.user_hex.domain.error.RoleException;
-import xyz.needpainkiller.api.user_hex.domain.error.UserException;
-import xyz.needpainkiller.api.user_hex.domain.model.Role;
-import xyz.needpainkiller.api.user_hex.domain.model.SecurityUser;
-import xyz.needpainkiller.api.user_hex.domain.model.User;
-import xyz.needpainkiller.api.user_hex.domain.model.UserStatusType;
+import xyz.needpainkiller.api.user.adapter.out.web.data.UserProfile;
+import xyz.needpainkiller.api.user.domain.error.RoleException;
+import xyz.needpainkiller.api.user.domain.error.UserException;
+import xyz.needpainkiller.api.user.domain.model.Role;
+import xyz.needpainkiller.api.user.domain.model.SecurityUser;
+import xyz.needpainkiller.api.user.domain.model.User;
+import xyz.needpainkiller.api.user.domain.model.UserStatusType;
 import xyz.needpainkiller.lib.exceptions.ErrorCode;
 import xyz.needpainkiller.lib.security.error.TokenValidFailedException;
 import xyz.needpainkiller.lib.security.provider.JsonWebTokenProvider;
@@ -28,7 +28,7 @@ import xyz.needpainkiller.lib.security.provider.JsonWebTokenProvider;
 import java.util.List;
 
 import static xyz.needpainkiller.api.tenant.domain.error.TenantErrorCode.TENANT_SEARCH_EMPTY;
-import static xyz.needpainkiller.api.user_hex.domain.error.UserErrorCode.*;
+import static xyz.needpainkiller.api.user.domain.error.UserErrorCode.*;
 import static xyz.needpainkiller.lib.exceptions.CommonErrorCode.*;
 
 @Slf4j

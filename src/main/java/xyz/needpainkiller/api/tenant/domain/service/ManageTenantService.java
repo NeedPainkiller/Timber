@@ -13,7 +13,7 @@ import xyz.needpainkiller.api.tenant.application.port.out.TenantEventPublisher;
 import xyz.needpainkiller.api.tenant.application.port.out.TenantOutputPort;
 import xyz.needpainkiller.api.tenant.domain.error.TenantException;
 import xyz.needpainkiller.api.tenant.domain.model.Tenant;
-import xyz.needpainkiller.api.user_hex.domain.model.User;
+import xyz.needpainkiller.api.user.domain.model.User;
 
 import java.util.List;
 import java.util.regex.Pattern;
