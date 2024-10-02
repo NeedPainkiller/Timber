@@ -3,10 +3,7 @@ package xyz.needpainkiller.api.user.domain.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -16,22 +13,16 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @JsonInclude(NON_NULL)
-@JsonIgnoreProperties(ignoreUnknown = true)
-@Entity
-
-@Table(name = "ACCOUNT_USER_ROLE_MAP")
+@JsonIgnoreProperties(value = {"hibernate_lazy_initializer", "handler"}, ignoreUnknown = true)
+@Cacheable
 @IdClass(UserRoleMapId.class)
 public class UserRoleMap implements Serializable {
-    @Serial
     private static final long serialVersionUID = -4575954203895356191L;
-    @Id
-    @Column(name = "USER_PK", nullable = false, columnDefinition = "bigint default 0")
     private Long userPk;
-    @Id
-    @Column(name = "ROLE_PK", nullable = false, columnDefinition = "bigint default 0")
     private Long rolePk;
 
     @Override
