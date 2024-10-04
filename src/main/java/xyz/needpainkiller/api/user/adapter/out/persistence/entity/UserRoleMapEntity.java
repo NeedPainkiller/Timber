@@ -27,7 +27,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 @IdClass(UserRoleMapId.class)
 public class UserRoleMapEntity implements Serializable {
     @Serial
-    private static final long serialVersionUID = -4575954203895356191L;
+    private static final long serialVersionUID = 6729770128402711946L;
     @Id
     @Column(name = "USER_PK", nullable = false, columnDefinition = "bigint default 0")
     private Long userPk;
