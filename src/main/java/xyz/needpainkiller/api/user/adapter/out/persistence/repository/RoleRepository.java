@@ -7,7 +7,7 @@ import xyz.needpainkiller.api.user.domain.model.Role;
 
 import java.util.List;
 
-public interface RoleRepo extends JpaRepository<Role, Long>, JpaSpecificationExecutor<Role> {
+public interface RoleRepository extends JpaRepository<Role, Long>, JpaSpecificationExecutor<Role> {
 
     @Cacheable(value = "RoleList", key = "'findAll'")
     List<Role> findAll();

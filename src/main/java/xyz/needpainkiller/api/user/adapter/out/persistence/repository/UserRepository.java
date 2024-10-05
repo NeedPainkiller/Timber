@@ -7,7 +7,7 @@ import xyz.needpainkiller.api.user.domain.model.User;
 
 import java.util.List;
 
-public interface UserRepo extends JpaRepository<User, Long>, JpaSpecificationExecutor<User> {
+public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificationExecutor<User> {
     List<User> findAll();
 
     List<User> findAllByIdIn(List<Long> idList);

@@ -18,7 +18,7 @@ import xyz.needpainkiller.api.authentication.model.Api;
 import xyz.needpainkiller.api.authentication.model.ApiRoleMap;
 import xyz.needpainkiller.api.authentication.model.Division;
 import xyz.needpainkiller.api.authentication.model.Menu;
-import xyz.needpainkiller.api.user.adapter.out.persistence.repository.RoleRepo;
+import xyz.needpainkiller.api.user.adapter.out.persistence.repository.RoleRepository;
 import xyz.needpainkiller.api.user.domain.error.RoleException;
 import xyz.needpainkiller.api.user.domain.model.Role;
 import xyz.needpainkiller.common.model.HttpMethod;
@@ -46,7 +46,7 @@ public class AuthorizationService {
     @Autowired
     private ApiRoleMapRepo apiRoleMapRepo;
     @Autowired
-    private RoleRepo roleRepo;
+    private RoleRepository roleRepository;
 
 
     @Cacheable(value = "Api", key = "'selectApi-' + #p0")
@@ -124,7 +124,7 @@ public class AuthorizationService {
     @Cacheable(value = "ApiRoleList", key = "'selectRoleListByApiPk-' + #p0")
     public List<Role> selectRoleListByApiPk(Long apiPk) {
         List<Long> rolePkList = apiRoleMapRepo.findByApiPk(apiPk).stream().map(ApiRoleMap::getRolePk).distinct().toList();
-        return roleRepo.findByIdIn(rolePkList).stream().filter(Role::isAvailable).toList();
+        return roleRepository.findByIdIn(rolePkList).stream().filter(Role::isAvailable).toList();
     }
 
 
@@ -132,7 +132,7 @@ public class AuthorizationService {
     public List<Role> selectRoleListByApiPkList(List<Long> apiPkList) {
         apiPkList = apiPkList.stream().distinct().toList();
         List<Long> rolePkList = apiRoleMapRepo.findByApiPkIn(apiPkList).stream().map(ApiRoleMap::getRolePk).distinct().toList();
-        return roleRepo.findByIdIn(rolePkList).stream().filter(Role::isAvailable).toList();
+        return roleRepository.findByIdIn(rolePkList).stream().filter(Role::isAvailable).toList();
     }
 
 

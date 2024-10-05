@@ -8,7 +8,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import xyz.needpainkiller.api.authentication.AuthorizationService;
 import xyz.needpainkiller.api.user.adapter.in.web.data.RoleRequests;
-import xyz.needpainkiller.api.user.adapter.out.persistence.repository.RoleRepo;
+import xyz.needpainkiller.api.user.adapter.out.persistence.repository.RoleRepository;
 import xyz.needpainkiller.api.user.adapter.out.persistence.repository.RoleSpecification;
 import xyz.needpainkiller.api.user.adapter.out.persistence.repository.UserRoleMapRepo;
 import xyz.needpainkiller.api.user.application.port.in.FindRoleUseCase;
@@ -28,19 +28,19 @@ public class FindRoleService implements FindRoleUseCase {
     @Autowired
     private AuthorizationService authorizationService;
     @Autowired
-    private RoleRepo roleRepo;
+    private RoleRepository roleRepository;
     @Autowired
     private UserRoleMapRepo userRoleMapRepo;
 
     @Override
     public boolean isRoleExist(Long rolePk) {
-        return roleRepo.findAll().stream().filter(Role::isAvailable).map(Role::getId).anyMatch(integer -> integer.equals(rolePk));
+        return roleRepository.findAll().stream().filter(Role::isAvailable).map(Role::getId).anyMatch(integer -> integer.equals(rolePk));
     }
 
 
     @Override
     public boolean isRoleExist(Long tenantPk, String roleNm) {
-        return roleRepo.findAll().stream()
+        return roleRepository.findAll().stream()
                 .filter(role -> role.filterByTenant(tenantPk))
                 .filter(Role::isAvailable)
                 .map(Role::getRoleName)
@@ -51,28 +51,28 @@ public class FindRoleService implements FindRoleUseCase {
     @Cacheable(value = "RoleList", key = "'selectAll'")
     @Override
     public List<Role> selectAll() {
-        return roleRepo.findAll().stream().filter(Role::isAvailable).toList();
+        return roleRepository.findAll().stream().filter(Role::isAvailable).toList();
     }
 
 
     @Cacheable(value = "Role", key = "'selectRoleByRolePk-' + #p0")
     @Override
     public Role selectRoleByRolePk(Long rolePk) {
-        return roleRepo.findById(rolePk).orElseThrow(() -> new RoleException(ROLE_NOT_EXIST));
+        return roleRepository.findById(rolePk).orElseThrow(() -> new RoleException(ROLE_NOT_EXIST));
     }
 
 
     @Cacheable(value = "Role", key = "'selectRoleByRoleNm-' + #p0")
     @Override
     public Role selectRoleByRoleNm(String roleNm) {
-        return roleRepo.findAll().stream().filter(Role::isAvailable).filter(role -> role.getRoleName().equals(roleNm.trim())).findAny().orElseThrow(() -> new RoleException(ROLE_NOT_EXIST));
+        return roleRepository.findAll().stream().filter(Role::isAvailable).filter(role -> role.getRoleName().equals(roleNm.trim())).findAny().orElseThrow(() -> new RoleException(ROLE_NOT_EXIST));
     }
 
 
     @Override
     public SearchCollectionResult<Role> selectRoleList(RoleRequests.SearchRoleRequest param) {
         Specification<Role> specification = Specification.where(RoleSpecification.search(param));
-        Page<Role> rolePage = roleRepo.findAll(specification, param.pageOf());
+        Page<Role> rolePage = roleRepository.findAll(specification, param.pageOf());
         List<Role> roleList = rolePage.getContent();
         long total = rolePage.getTotalElements();
         return SearchCollectionResult.<Role>builder().collection(roleList).foundRows(total).build();
@@ -118,14 +118,14 @@ public class FindRoleService implements FindRoleUseCase {
     @Override
     public List<Role> selectRolesByUser(Long userPk) {
         List<Long> rolePkList = userRoleMapRepo.findByUserPk(userPk).stream().map(UserRoleMap::getRolePk).distinct().toList();
-        return roleRepo.findByIdIn(rolePkList);
+        return roleRepository.findByIdIn(rolePkList);
     }
 
 
     @Cacheable(value = "RoleList", key = "'selectRolesByPkList-' + #p0.hashCode()")
     @Override
     public List<Role> selectRolesByPkList(List<Long> rolePkList) {
-        List<Role> roleList = roleRepo.findAll().stream().filter(Role::isAvailable).filter(role -> rolePkList.contains(role.getId())).toList();
+        List<Role> roleList = roleRepository.findAll().stream().filter(Role::isAvailable).filter(role -> rolePkList.contains(role.getId())).toList();
         if (roleList.isEmpty()) {
             throw new RoleException(ROLE_NOT_EXIST);
         }
@@ -136,7 +136,7 @@ public class FindRoleService implements FindRoleUseCase {
     @Cacheable(value = "RoleList", key = "'selectRolesByNameList-' + #p0.hashCode()")
     @Override
     public List<Role> selectRolesByNameList(List<String> roleNmList) {
-        return roleRepo.findAll().stream().filter(Role::isAvailable).filter(role -> roleNmList.contains(role.getRoleName())).toList();
+        return roleRepository.findAll().stream().filter(Role::isAvailable).filter(role -> roleNmList.contains(role.getRoleName())).toList();
     }
 
 

@@ -13,7 +13,7 @@ import xyz.needpainkiller.api.team.TeamService;
 import xyz.needpainkiller.api.tenant.domain.error.TenantException;
 import xyz.needpainkiller.api.user.RoleService;
 import xyz.needpainkiller.api.user.adapter.in.web.data.UserRequests.UpsertUserRequest;
-import xyz.needpainkiller.api.user.adapter.out.persistence.repository.UserRepo;
+import xyz.needpainkiller.api.user.adapter.out.persistence.repository.UserRepository;
 import xyz.needpainkiller.api.user.application.port.in.ManageUserUseCase;
 import xyz.needpainkiller.api.user.domain.error.UserException;
 import xyz.needpainkiller.api.user.domain.model.Role;
@@ -35,7 +35,7 @@ public class ManageUserService implements ManageUserUseCase {
 
 
     @Autowired
-    private UserRepo userRepo;
+    private UserRepository userRepository;
     @Autowired
     private RoleService roleService;
     @Autowired
@@ -52,24 +52,24 @@ public class ManageUserService implements ManageUserUseCase {
 
     @Override
     public void increaseLoginFailedCnt(Long userPk) {
-        User user = userRepo.findUserById(userPk);
+        User user = userRepository.findUserById(userPk);
         if (user == null) {
             throw new UserException(USER_NOT_EXIST);
         }
         user.setLoginFailedCnt(user.getLoginFailedCnt() + 1);
-        userRepo.save(user);
+        userRepository.save(user);
     }
 
 
     @Override
     public void updateLastLoginDate(Long userPk) {
-        User user = userRepo.findUserById(userPk);
+        User user = userRepository.findUserById(userPk);
         if (user == null) {
             throw new UserException(USER_NOT_EXIST);
         }
         user.setLoginFailedCnt(0);
         user.setLastLoginDate(TimeHelper.now());
-        userRepo.save(user);
+        userRepository.save(user);
     }
 
 
@@ -96,7 +96,7 @@ public class ManageUserService implements ManageUserUseCase {
         ValidationHelper.checkAnyRequiredEmpty(userEmail, userNm, userId);
 
         userId = userId.trim();
-        List<User> userList = userRepo.findUserByUserId(userId);
+        List<User> userList = userRepository.findUserByUserId(userId);
         boolean isUserExist = false;
         if (userList != null && !userList.isEmpty()) {
             isUserExist = userList.stream().filter(User::isAvailable).anyMatch(user -> user.getTenantPk().equals(tenantPk));
@@ -126,7 +126,7 @@ public class ManageUserService implements ManageUserUseCase {
         Map<String, Serializable> data = param.getData();
         user.setData(Objects.requireNonNullElseGet(data, HashMap::new));
 
-        user = userRepo.save(user);
+        user = userRepository.save(user);
         roleService.upsertUserRole(user.getId(), roleList);
         return user;
     }
@@ -157,7 +157,7 @@ public class ManageUserService implements ManageUserUseCase {
             throw new TenantException(TENANT_CONFLICT);
         }
 
-        User user = userRepo.findUserById(userPk);
+        User user = userRepository.findUserById(userPk);
         if (user == null) {
             throw new UserException(USER_NOT_EXIST);
         }
@@ -181,7 +181,7 @@ public class ManageUserService implements ManageUserUseCase {
         if (updatePassword) {
             updatePassword(userPk, requesterPk, userPwd);
         }
-        user = userRepo.save(user);
+        user = userRepository.save(user);
         roleService.upsertUserRole(userPk, roleList);
         return user;
     }
@@ -196,14 +196,14 @@ public class ManageUserService implements ManageUserUseCase {
     @Override
     public void updatePassword(Long userPk, Long requesterPk, String userPwd) {
         ValidationHelper.checkPassword(userPwd);
-        User user = userRepo.findUserById(userPk);
+        User user = userRepository.findUserById(userPk);
         if (user == null) {
             throw new UserException(USER_NOT_EXIST);
         }
         user.setUserPwd(bCryptPasswordEncoder.encode(userPwd));
         user.setUpdatedBy(requesterPk);
         user.setUpdatedDate(TimeHelper.now());
-        userRepo.save(user);
+        userRepository.save(user);
     }
 
 
@@ -217,7 +217,7 @@ public class ManageUserService implements ManageUserUseCase {
     public void deleteUser(Long tenantPk, Long userPk, User requester) {
         Long requesterPk = requester.getId();
 
-        User user = userRepo.findUserById(userPk);
+        User user = userRepository.findUserById(userPk);
         if (user == null) {
             throw new UserException(USER_NOT_EXIST);
         }
@@ -230,7 +230,7 @@ public class ManageUserService implements ManageUserUseCase {
         user.setUserStatus(UserStatusType.NOT_USED);
         user.setUpdatedBy(requesterPk);
         user.setUpdatedDate(TimeHelper.now());
-        userRepo.save(user);
+        userRepository.save(user);
         roleService.deleteUserRole(userPk);
     }
 
@@ -243,13 +243,13 @@ public class ManageUserService implements ManageUserUseCase {
     })
     @Override
     public void enableUser(Long userPk) {
-        User user = userRepo.findUserById(userPk);
+        User user = userRepository.findUserById(userPk);
         if (user == null) {
             throw new UserException(USER_NOT_EXIST);
         }
         user.setUserStatus(UserStatusType.OK);
         user.setUpdatedBy(SYSTEM_USER);
         user.setUpdatedDate(TimeHelper.now());
-        userRepo.save(user);
+        userRepository.save(user);
     }
 }

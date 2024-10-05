@@ -13,7 +13,7 @@ import xyz.needpainkiller.api.team.model.Team;
 import xyz.needpainkiller.api.tenant.domain.model.Tenant;
 import xyz.needpainkiller.api.user.RoleService;
 import xyz.needpainkiller.api.user.adapter.in.web.data.UserRequests.SearchUserRequest;
-import xyz.needpainkiller.api.user.adapter.out.persistence.repository.UserRepo;
+import xyz.needpainkiller.api.user.adapter.out.persistence.repository.UserRepository;
 import xyz.needpainkiller.api.user.adapter.out.persistence.repository.UserSpecification;
 import xyz.needpainkiller.api.user.adapter.out.web.data.UserProfile;
 import xyz.needpainkiller.api.user.application.port.in.FindUserUseCase;
@@ -35,7 +35,7 @@ public class FindUserService implements FindUserUseCase {
 
 
     @Autowired
-    private UserRepo userRepo;
+    private UserRepository userRepository;
     @Autowired
     private RoleService roleService;
     @Autowired
@@ -63,7 +63,7 @@ public class FindUserService implements FindUserUseCase {
 
     @Override
     public User selectUser(Long userPk) throws UserException {
-        User user = userRepo.findUserById(userPk);
+        User user = userRepository.findUserById(userPk);
         if (user == null) {
             throw new UserException(USER_NOT_EXIST);
         }
@@ -74,7 +74,7 @@ public class FindUserService implements FindUserUseCase {
     @Override
     public List<User> selectUserByUserId(String userId) throws UserException {
         userId = userId.trim();
-        List<User> userList = userRepo.findUserByUserId(userId);
+        List<User> userList = userRepository.findUserByUserId(userId);
         if (userList == null || userList.isEmpty()) {
             throw new UserException(USER_NOT_EXIST);
         }
@@ -92,7 +92,7 @@ public class FindUserService implements FindUserUseCase {
     @Override
     public User selectUserByUserId(Long tenantPk, String userId) throws UserException {
         userId = userId.trim();
-        List<User> userList = userRepo.findUserByUserId(userId);
+        List<User> userList = userRepository.findUserByUserId(userId);
         if (userList == null || userList.isEmpty()) {
             throw new UserException(USER_NOT_EXIST);
         }
@@ -104,7 +104,7 @@ public class FindUserService implements FindUserUseCase {
     @Override
     public boolean isUserIdExist(Long tenantPk, String userId) {
         userId = userId.trim();
-        List<User> userList = userRepo.findUserByUserId(userId);
+        List<User> userList = userRepository.findUserByUserId(userId);
         if (userList == null || userList.isEmpty()) {
             return false;
         }
@@ -115,7 +115,7 @@ public class FindUserService implements FindUserUseCase {
     @Override
     @Cacheable(value = "UserProfile", key = "'selectUserProfile-' + #p0", unless = "#result == null")
     public UserProfile selectUserProfile(Long userPk) throws UserException {
-        User user = userRepo.findUserById(userPk);
+        User user = userRepository.findUserById(userPk);
         if (user == null) {
             throw new UserException(USER_NOT_EXIST);
         }
@@ -142,21 +142,21 @@ public class FindUserService implements FindUserUseCase {
     @Override
     @Cacheable(value = "UserList", key = "'selectUserList'")
     public List<User> selectUserList() {
-        return userRepo.findAll();
+        return userRepository.findAll();
     }
 
 
     @Override
     @Cacheable(value = "UserList", key = "'selectUserList-' + #p0")
     public List<User> selectUserList(Long tenantPk) {
-        return userRepo.findAll().stream().filter(user -> user.filterByTenant(tenantPk)).toList();
+        return userRepository.findAll().stream().filter(user -> user.filterByTenant(tenantPk)).toList();
     }
 
 
     @Override
     @Cacheable(value = "UserList", key = "'selectUserListByPkList-' + #p0.hashCode()")
     public List<User> selectUserListByPkList(List<Long> userPkList) {
-        return userRepo.findAllByIdIn(userPkList);
+        return userRepository.findAllByIdIn(userPkList);
     }
 
 
@@ -235,7 +235,7 @@ public class FindUserService implements FindUserUseCase {
     @Override
     public SearchCollectionResult<User> selectUserList(SearchUserRequest param) {
         Specification<User> specification = Specification.where(UserSpecification.search(param));
-        Page<User> userPage = userRepo.findAll(specification, param.pageOf());
+        Page<User> userPage = userRepository.findAll(specification, param.pageOf());
         List<User> userList = userPage.getContent();
         long total = userPage.getTotalElements();
         return SearchCollectionResult.<User>builder().collection(userList).foundRows(total).build();
@@ -245,7 +245,7 @@ public class FindUserService implements FindUserUseCase {
     @Override
     public SearchCollectionResult<UserProfile> selectUserProfileList(SearchUserRequest param) {
         Specification<User> specification = Specification.where(UserSpecification.search(param));
-        Page<User> userPage = userRepo.findAll(specification, param.pageOf());
+        Page<User> userPage = userRepository.findAll(specification, param.pageOf());
         List<User> userList = userPage.getContent();
         List<UserProfile> UserProfileList = mapUserProfileList(userList);
         long total = userPage.getTotalElements();

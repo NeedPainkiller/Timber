@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import xyz.needpainkiller.api.authentication.AuthorizationService;
 import xyz.needpainkiller.api.tenant.domain.error.TenantException;
 import xyz.needpainkiller.api.user.adapter.in.web.data.RoleRequests;
-import xyz.needpainkiller.api.user.adapter.out.persistence.repository.RoleRepo;
+import xyz.needpainkiller.api.user.adapter.out.persistence.repository.RoleRepository;
 import xyz.needpainkiller.api.user.adapter.out.persistence.repository.UserRoleMapRepo;
 import xyz.needpainkiller.api.user.application.port.in.ManageRoleUseCase;
 import xyz.needpainkiller.api.user.domain.error.RoleException;
@@ -30,7 +30,7 @@ public class ManageRoleService implements ManageRoleUseCase {
     @Autowired
     private AuthorizationService authorizationService;
     @Autowired
-    private RoleRepo roleRepo;
+    private RoleRepository roleRepository;
     @Autowired
     private UserRoleMapRepo userRoleMapRepo;
 
@@ -58,7 +58,7 @@ public class ManageRoleService implements ManageRoleUseCase {
         role.setEditable(true);
         role.setCreatedBy(requesterPk);
         role.setUpdatedBy(requesterPk);
-        role = roleRepo.save(role);
+        role = roleRepository.save(role);
         authorizationService.upsertApiRole(role, param.getApiList());
         return role;
     }
@@ -91,7 +91,7 @@ public class ManageRoleService implements ManageRoleUseCase {
         role.setAdmin(param.getIsAdmin());
         role.setEditable(true);
         role.setUpdatedBy(requesterPk);
-        role = roleRepo.save(role);
+        role = roleRepository.save(role);
         authorizationService.upsertApiRole(role, param.getApiList());
         return role;
     }
@@ -115,7 +115,7 @@ public class ManageRoleService implements ManageRoleUseCase {
         role.setUseYn(false);
         role.setUpdatedBy(requesterPk);
         role.setUpdatedDate(TimeHelper.now());
-        roleRepo.save(role);
+        roleRepository.save(role);
     }
 
 
