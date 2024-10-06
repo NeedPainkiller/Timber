@@ -5,11 +5,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.Lock;
 import xyz.needpainkiller.api.tenant.adapter.out.persistence.entity.TenantEntity;
 import xyz.needpainkiller.api.tenant.adapter.out.persistence.mapper.TenantPersistenceMapper;
-import xyz.needpainkiller.api.tenant.adapter.out.persistence.repository.TenantRepository;
 import xyz.needpainkiller.api.tenant.application.port.out.TenantOutputPort;
 import xyz.needpainkiller.api.tenant.domain.error.TenantErrorCode;
 import xyz.needpainkiller.api.tenant.domain.error.TenantException;
 import xyz.needpainkiller.api.tenant.domain.model.Tenant;
+import xyz.needpainkiller.api.user.adapter.out.persistence.repository.UserRepository;
 
 import java.util.List;
 import java.util.Map;
@@ -25,7 +25,7 @@ public class UserPersistenceAdapter implements TenantOutputPort {
     /**
      * 테넌트 Repository
      */
-    private final TenantRepository tenantRepository;
+    private final UserRepository userRepository;
 
     /**
      * 테넌트 Mapper ( Persistence -> Domain / Domain -> Persistence )

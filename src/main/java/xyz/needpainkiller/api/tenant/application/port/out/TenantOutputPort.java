@@ -1,5 +1,6 @@
 package xyz.needpainkiller.api.tenant.application.port.out;
 
+import jakarta.validation.constraints.NotNull;
 import xyz.needpainkiller.api.tenant.domain.error.TenantException;
 import xyz.needpainkiller.api.tenant.domain.model.Tenant;
 
@@ -22,7 +23,7 @@ public interface TenantOutputPort {
      * @param tenantPk 테넌트 PK
      * @return Optional<Tenant> 테넌트
      */
-    Optional<Tenant> selectTenant(Long tenantPk);
+    Optional<Tenant> selectTenant(@NotNull Long tenantPk);
 
     /**
      * 테넌트 단일 검색
@@ -31,7 +32,7 @@ public interface TenantOutputPort {
      * @param tenantPk 테넌트 PK
      * @return Optional<Tenant> 테넌트
      */
-    Optional<Tenant> selectTenantAvailable(Long tenantPk);
+    Optional<Tenant> selectTenantAvailable(@NotNull Long tenantPk);
 
     /**
      * 테넌트 목록 검색
