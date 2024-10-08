@@ -2,6 +2,7 @@ package xyz.needpainkiller.api.user.adapter.out.persistence;
 
 import jakarta.persistence.LockModeType;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.jpa.repository.Lock;
 import xyz.needpainkiller.api.tenant.adapter.out.persistence.entity.TenantEntity;
 import xyz.needpainkiller.api.tenant.adapter.out.persistence.mapper.TenantPersistenceMapper;
@@ -10,6 +11,9 @@ import xyz.needpainkiller.api.tenant.domain.error.TenantErrorCode;
 import xyz.needpainkiller.api.tenant.domain.error.TenantException;
 import xyz.needpainkiller.api.tenant.domain.model.Tenant;
 import xyz.needpainkiller.api.user.adapter.out.persistence.repository.UserRepository;
+import xyz.needpainkiller.api.user.application.port.out.UserOutputPort;
+import xyz.needpainkiller.api.user.domain.error.UserException;
+import xyz.needpainkiller.api.user.domain.model.User;
 
 import java.util.List;
 import java.util.Map;
@@ -20,7 +24,7 @@ import static xyz.needpainkiller.api.tenant.domain.error.TenantErrorCode.TENANT_
 import static xyz.needpainkiller.api.tenant.domain.error.TenantErrorCode.TENANT_DELETED;
 
 @RequiredArgsConstructor
-public class UserPersistenceAdapter implements TenantOutputPort {
+public class UserPersistenceAdapter implements UserOutputPort {
 
     /**
      * 테넌트 Repository
@@ -100,6 +104,41 @@ public class UserPersistenceAdapter implements TenantOutputPort {
         }
         tenantEntityToDelete = tenantRepository.save(tenantEntityToDelete);
         return tenantPersistenceMapper.toTenant(tenantEntityToDelete);
+    }
+
+    @Override
+    public List<User> findAll() {
+        return List.of();
+    }
+
+    @Override
+    public List<User> findAllByIdIn(List<Long> idList) {
+        return List.of();
+    }
+
+    @Override
+    public Optional<User> findUserById(@NotNull Long userPk) {
+        return Optional.empty();
+    }
+
+    @Override
+    public List<User> findUserByUserId(@NotNull String userId) {
+        return List.of();
+    }
+
+    @Override
+    public User create(User user) throws UserException {
+        return null;
+    }
+
+    @Override
+    public User update(User user) throws UserException {
+        return null;
+    }
+
+    @Override
+    public User delete(User user) throws UserException {
+        return null;
     }
 
     @Override
