@@ -10,8 +10,10 @@ import xyz.needpainkiller.api.tenant.application.port.out.TenantOutputPort;
 import xyz.needpainkiller.api.tenant.domain.error.TenantErrorCode;
 import xyz.needpainkiller.api.tenant.domain.error.TenantException;
 import xyz.needpainkiller.api.tenant.domain.model.Tenant;
+import xyz.needpainkiller.api.user.adapter.out.persistence.entity.UserEntity;
 import xyz.needpainkiller.api.user.adapter.out.persistence.repository.UserRepository;
 import xyz.needpainkiller.api.user.application.port.out.UserOutputPort;
+import xyz.needpainkiller.api.user.domain.error.UserErrorCode;
 import xyz.needpainkiller.api.user.domain.error.UserException;
 import xyz.needpainkiller.api.user.domain.model.User;
 
@@ -137,23 +139,18 @@ public class UserPersistenceAdapter implements UserOutputPort {
     }
 
     @Override
-    public User delete(User user) throws UserException {
-        return null;
-    }
-
-    @Override
     @Lock(value = LockModeType.PESSIMISTIC_WRITE)
-    public Tenant delete(Long tenantPk) throws TenantException {
-        Optional<TenantEntity> tenantEntity = tenantRepository.findById(tenantPk);
-        if (tenantEntity.isEmpty()) {
-            throw new TenantException(TenantErrorCode.TENANT_NOT_EXIST);
+    public User delete(Long userPk) throws UserException {
+        Optional<UserEntity> userEntity = userRepository.findById(userPk);
+        if (userEntity.isEmpty()) {
+            throw new UserException(UserErrorCode.USER_NOT_EXIST);
         }
         TenantEntity tenantEntityToDelete = tenantEntity.get();
         if (!tenantEntityToDelete.isUseYn()) {
-            throw new TenantException(TENANT_DELETED);
+            throw new UserException(TENANT_DELETED);
         }
         if (tenantEntityToDelete.isDefault()) {
-            throw new TenantException(TENANT_DEFAULT_CAN_NOT_DELETE);
+            throw new UserException(TENANT_DEFAULT_CAN_NOT_DELETE);
         }
         tenantEntityToDelete = tenantRepository.save(tenantEntityToDelete);
         return tenantPersistenceMapper.toTenant(tenantEntityToDelete);
