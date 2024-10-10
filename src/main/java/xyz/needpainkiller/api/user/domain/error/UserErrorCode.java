@@ -9,6 +9,7 @@ public enum UserErrorCode implements ErrorCode {
     USER_UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "계정 권한이 확인되지 않음"),
     USER_FORBIDDEN(HttpStatus.FORBIDDEN, "요청하고자 하는 정보의 조회권한 없음"),
     USER_NOT_EXIST(HttpStatus.NOT_FOUND, "존재하지 않는 계정입니다."),
+    USER_DELETED(HttpStatus.BAD_REQUEST, "이미 삭제된 계정입니다."),
     USER_LOCKED(HttpStatus.BAD_REQUEST, "잠금 처리된 계정입니다."),
     USER_ALREADY_EXIST(HttpStatus.BAD_REQUEST, "이미 등록된 유저"),
     USER_DISABLED(HttpStatus.BAD_REQUEST, "비활성화 또는 삭제된 유저"),
