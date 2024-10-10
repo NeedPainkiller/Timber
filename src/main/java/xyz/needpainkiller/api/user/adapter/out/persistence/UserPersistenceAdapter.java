@@ -11,6 +11,7 @@ import xyz.needpainkiller.api.tenant.domain.error.TenantErrorCode;
 import xyz.needpainkiller.api.tenant.domain.error.TenantException;
 import xyz.needpainkiller.api.tenant.domain.model.Tenant;
 import xyz.needpainkiller.api.user.adapter.out.persistence.entity.UserEntity;
+import xyz.needpainkiller.api.user.adapter.out.persistence.mapper.UserPersistenceMapper;
 import xyz.needpainkiller.api.user.adapter.out.persistence.repository.UserRepository;
 import xyz.needpainkiller.api.user.application.port.out.UserOutputPort;
 import xyz.needpainkiller.api.user.domain.error.UserErrorCode;
@@ -36,7 +37,7 @@ public class UserPersistenceAdapter implements UserOutputPort {
     /**
      * 테넌트 Mapper ( Persistence -> Domain / Domain -> Persistence )
      */
-    private final TenantPersistenceMapper tenantPersistenceMapper;
+    private final UserPersistenceMapper userPersistenceMapper;
 
     @Override
     public Optional<Tenant> selectTenant(Long tenantPk) {
@@ -63,50 +64,6 @@ public class UserPersistenceAdapter implements UserOutputPort {
         return tenantRepository.findAll().stream().collect(Collectors.toMap(TenantEntity::getId, tenantPersistenceMapper::toTenant));
     }
 
-    @Override
-    public Tenant create(Tenant tenant) throws TenantException {
-        TenantEntity tenantEntity = tenantPersistenceMapper.toTenantEntity(tenant);
-        tenantRepository.save(tenantEntity);
-        return tenantPersistenceMapper.toTenant(tenantEntity);
-    }
-
-    @Override
-    @Lock(value = LockModeType.PESSIMISTIC_WRITE)
-    public Tenant update(Tenant tenant) throws TenantException {
-        Long tenantPk = tenant.getId();
-        Optional<TenantEntity> tenantEntity = tenantRepository.findById(tenantPk);
-        if (tenantEntity.isEmpty()) {
-            throw new TenantException(TenantErrorCode.TENANT_NOT_EXIST);
-        }
-
-        TenantEntity tenantEntityToCheck = tenantEntity.get();
-        if (!tenantEntityToCheck.isUseYn()) {
-            throw new TenantException(TENANT_DELETED);
-        }
-
-        TenantEntity updatedTenantEntity = tenantPersistenceMapper.toTenantEntity(tenant);
-        tenantRepository.save(updatedTenantEntity);
-        return tenantPersistenceMapper.toTenant(updatedTenantEntity);
-    }
-
-    @Override
-    @Lock(value = LockModeType.PESSIMISTIC_WRITE)
-    public Tenant delete(Tenant tenant) throws TenantException {
-        Long tenantPk = tenant.getId();
-        Optional<TenantEntity> tenantEntity = tenantRepository.findById(tenantPk);
-        if (tenantEntity.isEmpty()) {
-            throw new TenantException(TenantErrorCode.TENANT_NOT_EXIST);
-        }
-        TenantEntity tenantEntityToDelete = tenantEntity.get();
-        if (!tenantEntityToDelete.isUseYn()) {
-            throw new TenantException(TENANT_DELETED);
-        }
-        if (tenantEntityToDelete.isDefault()) {
-            throw new TenantException(TENANT_DEFAULT_CAN_NOT_DELETE);
-        }
-        tenantEntityToDelete = tenantRepository.save(tenantEntityToDelete);
-        return tenantPersistenceMapper.toTenant(tenantEntityToDelete);
-    }
 
     @Override
     public List<User> findAll() {
@@ -130,12 +87,32 @@ public class UserPersistenceAdapter implements UserOutputPort {
 
     @Override
     public User create(User user) throws UserException {
-        return null;
+        /*
+        * 유저 등록조건 사전 확인 필요
+        * */
+        
+        UserEntity userEntity = userPersistenceMapper.toUserEntity(user);
+        userRepository.save(userEntity);
+        return userPersistenceMapper.toUser(userEntity);
     }
 
     @Override
+    @Lock(value = LockModeType.PESSIMISTIC_WRITE)
     public User update(User user) throws UserException {
-        return null;
+        Long userPk = user.getId();
+        Optional<UserEntity> userEntity = userRepository.findById(userPk);
+        if (userEntity.isEmpty()) {
+            throw new TenantException(UserErrorCode.USER_NOT_EXIST);
+        }
+
+        UserEntity userEntityToCheck = userEntity.get();
+        if (!userEntityToCheck.isUseYn()) {
+            throw new TenantException(UserErrorCode.USER_DELETED);
+        }
+
+        UserEntity updatedUserEntity = userPersistenceMapper.toUserEntity(user);
+        userRepository.save(updatedUserEntity);
+        return userPersistenceMapper.toUser(updatedUserEntity);
     }
 
     @Override
@@ -145,14 +122,11 @@ public class UserPersistenceAdapter implements UserOutputPort {
         if (userEntity.isEmpty()) {
             throw new UserException(UserErrorCode.USER_NOT_EXIST);
         }
-        TenantEntity tenantEntityToDelete = tenantEntity.get();
-        if (!tenantEntityToDelete.isUseYn()) {
-            throw new UserException(TENANT_DELETED);
+        UserEntity userEntityToDelete = userEntity.get();
+        if (!userEntityToDelete.isUseYn()) {
+            throw new UserException(UserErrorCode.USER_DELETED);
         }
-        if (tenantEntityToDelete.isDefault()) {
-            throw new UserException(TENANT_DEFAULT_CAN_NOT_DELETE);
-        }
-        tenantEntityToDelete = tenantRepository.save(tenantEntityToDelete);
-        return tenantPersistenceMapper.toTenant(tenantEntityToDelete);
+        userEntityToDelete = userRepository.save(userEntityToDelete);
+        return userPersistenceMapper.toUser(userEntityToDelete);
     }
 }
