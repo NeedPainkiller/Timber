@@ -30,5 +30,5 @@ public interface UserPersistenceMapper {
      * @param userEntity 유저 Entity
      * @return User 유저
      */
-    User toTenant(UserEntity userEntity);
+    User toUser(UserEntity userEntity);
 }
