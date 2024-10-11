@@ -77,7 +77,7 @@ public class UserPersistenceAdapter implements UserOutputPort {
 
     @Override
     public Optional<User> findUserById(@NotNull Long userPk) {
-        return Optional.empty();
+        return userRepository.findById(userPk).filter(UserEntity::isUseYn).map(userPersistenceMapper::toUser);
     }
 
     @Override
