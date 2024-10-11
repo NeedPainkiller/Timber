@@ -82,7 +82,7 @@ public class UserPersistenceAdapter implements UserOutputPort {
 
     @Override
     public List<User> findUserByUserId(@NotNull String userId) {
-        return List.of();
+        return userRepository.findUserByUserId(userId).stream().map(userPersistenceMapper::toUser).toList();
     }
 
     @Override
