@@ -39,40 +39,19 @@ public class UserPersistenceAdapter implements UserOutputPort {
      */
     private final UserPersistenceMapper userPersistenceMapper;
 
-    @Override
-    public Optional<Tenant> selectTenant(Long tenantPk) {
-        return tenantRepository.findById(tenantPk).map(tenantPersistenceMapper::toTenant);
-    }
-
-    @Override
-    public Optional<Tenant> selectTenantAvailable(Long tenantPk) {
-        return tenantRepository.findById(tenantPk).filter(TenantEntity::isUseYn).map(tenantPersistenceMapper::toTenant);
-    }
-
-    @Override
-    public List<Tenant> selectTenantList() {
-        return tenantRepository.findAll().stream().map(tenantPersistenceMapper::toTenant).toList();
-    }
-
-    @Override
-    public List<Long> selectTenantPkList() {
-        return tenantRepository.findAll().stream().map(TenantEntity::getId).toList();
-    }
-
-    @Override
-    public Map<Long, Tenant> selectTenantMap() {
-        return tenantRepository.findAll().stream().collect(Collectors.toMap(TenantEntity::getId, tenantPersistenceMapper::toTenant));
-    }
-
 
     @Override
     public List<User> findAll() {
-        return List.of();
+        return userRepository.findAll().stream()
+                .filter(UserEntity::isUseYn)
+                .map(userPersistenceMapper::toUser).toList();
     }
 
     @Override
     public List<User> findAllByIdIn(List<Long> idList) {
-        return List.of();
+        return userRepository.findAllByIdIn(idList).stream()
+                .filter(UserEntity::isUseYn)
+                .map(userPersistenceMapper::toUser).toList();
     }
 
     @Override
@@ -82,15 +61,17 @@ public class UserPersistenceAdapter implements UserOutputPort {
 
     @Override
     public List<User> findUserByUserId(@NotNull String userId) {
-        return userRepository.findUserByUserId(userId).stream().map(userPersistenceMapper::toUser).toList();
+        return userRepository.findUserByUserId(userId).stream()
+                .filter(UserEntity::isUseYn)
+                .map(userPersistenceMapper::toUser).toList();
     }
 
     @Override
     public User create(User user) throws UserException {
         /*
-        * 유저 등록조건 사전 확인 필요
-        * */
-        
+         * 유저 등록조건 사전 확인 필요
+         * */
+
         UserEntity userEntity = userPersistenceMapper.toUserEntity(user);
         userRepository.save(userEntity);
         return userPersistenceMapper.toUser(userEntity);
@@ -113,6 +94,13 @@ public class UserPersistenceAdapter implements UserOutputPort {
         UserEntity updatedUserEntity = userPersistenceMapper.toUserEntity(user);
         userRepository.save(updatedUserEntity);
         return userPersistenceMapper.toUser(updatedUserEntity);
+    }
+
+    @Override
+    @Lock(value = LockModeType.PESSIMISTIC_WRITE)
+    public User delete(User user) throws UserException {
+        Long userPk = user.getId();
+        return delete(userPk);
     }
 
     @Override
