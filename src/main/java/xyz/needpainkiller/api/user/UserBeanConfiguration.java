@@ -3,33 +3,34 @@ package xyz.needpainkiller.api.user;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import xyz.needpainkiller.api.tenant.adapter.out.event.TenantEventPublisherAdapter;
-import xyz.needpainkiller.api.tenant.adapter.out.persistence.TenantPersistenceAdapter;
-import xyz.needpainkiller.api.tenant.adapter.out.persistence.mapper.TenantPersistenceMapper;
-import xyz.needpainkiller.api.tenant.adapter.out.persistence.repository.TenantRepository;
-import xyz.needpainkiller.api.tenant.domain.service.FindTenantService;
-import xyz.needpainkiller.api.tenant.domain.service.ManageTenantService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import xyz.needpainkiller.api.user.adapter.out.event.UserEventPublisherAdapter;
+import xyz.needpainkiller.api.user.adapter.out.persistence.UserPersistenceAdapter;
+import xyz.needpainkiller.api.user.adapter.out.persistence.mapper.UserPersistenceMapper;
+import xyz.needpainkiller.api.user.adapter.out.persistence.repository.UserRepository;
+import xyz.needpainkiller.api.user.domain.service.FindUserService;
+import xyz.needpainkiller.api.user.domain.service.ManageUserService;
 
 @Configuration
 public class UserBeanConfiguration {
 
     @Bean
-    public TenantPersistenceAdapter tenantPersistenceAdapter(TenantRepository tenantRepository, TenantPersistenceMapper tenantPersistenceMapper) {
-        return new TenantPersistenceAdapter(tenantRepository, tenantPersistenceMapper);
+    public UserPersistenceAdapter userPersistenceAdapter(UserRepository userRepository, UserPersistenceMapper userPersistenceMapper) {
+        return new UserPersistenceAdapter(userRepository, userPersistenceMapper);
     }
 
     @Bean
-    public TenantEventPublisherAdapter tenantEventPublisherAdapter(ApplicationEventPublisher applicationEventPublisher) {
-        return new TenantEventPublisherAdapter(applicationEventPublisher);
+    public UserEventPublisherAdapter userEventPublisherAdapter(ApplicationEventPublisher applicationEventPublisher) {
+        return new UserEventPublisherAdapter(applicationEventPublisher);
     }
 
     @Bean
-    public FindTenantService findTenantService(TenantPersistenceAdapter tenantPersistenceAdapter) {
-        return new FindTenantService(tenantPersistenceAdapter);
+    public FindUserService findUserService(UserPersistenceAdapter userPersistenceAdapter) {
+        return new FindUserService(userPersistenceAdapter);
     }
 
     @Bean
-    public ManageTenantService manageTenantService(TenantPersistenceAdapter tenantPersistenceAdapter, TenantEventPublisherAdapter tenantEventPublisherAdapter) {
-        return new ManageTenantService(tenantPersistenceAdapter, tenantEventPublisherAdapter);
+    public ManageUserService manageUserService(UserPersistenceAdapter userPersistenceAdapter, UserEventPublisherAdapter userEventPublisherAdapter, BCryptPasswordEncoder bCryptPasswordEncoder) {
+        return new ManageUserService(userPersistenceAdapter, userEventPublisherAdapter, bCryptPasswordEncoder);
     }
 }
