@@ -1,20 +1,22 @@
 package xyz.needpainkiller.api.user.domain.service;
 
 import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import xyz.needpainkiller.api.team.TeamService;
+import xyz.needpainkiller.api.tenant.application.port.out.TenantEventPublisher;
+import xyz.needpainkiller.api.tenant.application.port.out.TenantOutputPort;
 import xyz.needpainkiller.api.tenant.domain.error.TenantException;
-import xyz.needpainkiller.api.user.RoleService;
 import xyz.needpainkiller.api.user.adapter.in.web.data.UserRequests.UpsertUserRequest;
 import xyz.needpainkiller.api.user.adapter.out.persistence.repository.UserRepository;
 import xyz.needpainkiller.api.user.application.port.in.ManageUserUseCase;
+import xyz.needpainkiller.api.user.application.port.out.UserEventPublisher;
+import xyz.needpainkiller.api.user.application.port.out.UserOutputPort;
 import xyz.needpainkiller.api.user.domain.error.UserException;
 import xyz.needpainkiller.api.user.domain.model.Role;
 import xyz.needpainkiller.api.user.domain.model.User;
@@ -30,18 +32,15 @@ import static xyz.needpainkiller.api.user.domain.error.UserErrorCode.USER_ALREAD
 import static xyz.needpainkiller.api.user.domain.error.UserErrorCode.USER_NOT_EXIST;
 
 @Slf4j
-@Service
+@RequiredArgsConstructor
 public class ManageUserService implements ManageUserUseCase {
 
+    private final UserOutputPort userOutputPort;
 
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private RoleService roleService;
-    @Autowired
-    private TeamService teamService;
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final UserEventPublisher userEventPublisher;
+//    private final RoleService roleService;
+//    private final TeamService teamService;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @PostConstruct
     public void init() {

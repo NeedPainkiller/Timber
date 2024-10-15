@@ -1,45 +1,44 @@
 package xyz.needpainkiller.api.user.domain.service;
 
 import jakarta.annotation.PostConstruct;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.stereotype.Service;
-import xyz.needpainkiller.api.team.TeamService;
 import xyz.needpainkiller.api.team.error.TeamException;
 import xyz.needpainkiller.api.team.model.Team;
 import xyz.needpainkiller.api.tenant.domain.model.Tenant;
-import xyz.needpainkiller.api.user.RoleService;
 import xyz.needpainkiller.api.user.adapter.in.web.data.UserRequests.SearchUserRequest;
-import xyz.needpainkiller.api.user.adapter.out.persistence.repository.UserRepository;
 import xyz.needpainkiller.api.user.adapter.out.persistence.repository.UserSpecification;
 import xyz.needpainkiller.api.user.adapter.out.web.data.UserProfile;
 import xyz.needpainkiller.api.user.application.port.in.FindUserUseCase;
+import xyz.needpainkiller.api.user.application.port.out.UserOutputPort;
 import xyz.needpainkiller.api.user.domain.error.UserException;
 import xyz.needpainkiller.api.user.domain.model.Role;
 import xyz.needpainkiller.api.user.domain.model.User;
 import xyz.needpainkiller.api.user.domain.model.UserRoleMap;
 import xyz.needpainkiller.common.dto.SearchCollectionResult;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static xyz.needpainkiller.api.user.domain.error.UserErrorCode.USER_NOT_EXIST;
 import static xyz.needpainkiller.api.user.domain.model.User.SYSTEM_USER;
 
 @Slf4j
-@Service
+@AllArgsConstructor
 public class FindUserService implements FindUserUseCase {
 
 
     @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private RoleService roleService;
-    @Autowired
-    private TeamService teamService;
+    private UserOutputPort userOutputPort;
+//    @Autowired
+//    private RoleService roleService;
+//    @Autowired
+//    private TeamService teamService;
 
     @PostConstruct
     public void init() {
