@@ -45,7 +45,7 @@ public class ManageUserService implements ManageUserUseCase {
     @PostConstruct
     public void init() {
         log.info("CommonUserService");
-        log.info("SYSTEM_USER: {}", SYSTEM_USER);
+        log.info("SYSTEM_USER: {}", User.SYSTEM_USER);
     }
 
 
