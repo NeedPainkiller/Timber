@@ -51,24 +51,24 @@ public class ManageUserService implements ManageUserUseCase {
 
     @Override
     public void increaseLoginFailedCnt(Long userPk) {
-        User user = userRepository.findUserById(userPk);
+        User user = userOutputPort.findUserById(userPk);
         if (user == null) {
             throw new UserException(USER_NOT_EXIST);
         }
         user.setLoginFailedCnt(user.getLoginFailedCnt() + 1);
-        userRepository.save(user);
+        userOutputPort.save(user);
     }
 
 
     @Override
     public void updateLastLoginDate(Long userPk) {
-        User user = userRepository.findUserById(userPk);
+        User user = userOutputPort.findUserById(userPk);
         if (user == null) {
             throw new UserException(USER_NOT_EXIST);
         }
         user.setLoginFailedCnt(0);
         user.setLastLoginDate(TimeHelper.now());
-        userRepository.save(user);
+        userOutputPort.save(user);
     }
 
 
@@ -95,7 +95,7 @@ public class ManageUserService implements ManageUserUseCase {
         ValidationHelper.checkAnyRequiredEmpty(userEmail, userNm, userId);
 
         userId = userId.trim();
-        List<User> userList = userRepository.findUserByUserId(userId);
+        List<User> userList = userOutputPort.findUserByUserId(userId);
         boolean isUserExist = false;
         if (userList != null && !userList.isEmpty()) {
             isUserExist = userList.stream().filter(User::isAvailable).anyMatch(user -> user.getTenantPk().equals(tenantPk));
@@ -125,7 +125,7 @@ public class ManageUserService implements ManageUserUseCase {
         Map<String, Serializable> data = param.getData();
         user.setData(Objects.requireNonNullElseGet(data, HashMap::new));
 
-        user = userRepository.save(user);
+        user = userOutputPort.save(user);
         roleService.upsertUserRole(user.getId(), roleList);
         return user;
     }
@@ -156,7 +156,7 @@ public class ManageUserService implements ManageUserUseCase {
             throw new TenantException(TENANT_CONFLICT);
         }
 
-        User user = userRepository.findUserById(userPk);
+        User user = userOutputPort.findUserById(userPk);
         if (user == null) {
             throw new UserException(USER_NOT_EXIST);
         }
@@ -180,7 +180,7 @@ public class ManageUserService implements ManageUserUseCase {
         if (updatePassword) {
             updatePassword(userPk, requesterPk, userPwd);
         }
-        user = userRepository.save(user);
+        user = userOutputPort.save(user);
         roleService.upsertUserRole(userPk, roleList);
         return user;
     }
@@ -195,14 +195,14 @@ public class ManageUserService implements ManageUserUseCase {
     @Override
     public void updatePassword(Long userPk, Long requesterPk, String userPwd) {
         ValidationHelper.checkPassword(userPwd);
-        User user = userRepository.findUserById(userPk);
+        User user = userOutputPort.findUserById(userPk);
         if (user == null) {
             throw new UserException(USER_NOT_EXIST);
         }
         user.setUserPwd(bCryptPasswordEncoder.encode(userPwd));
         user.setUpdatedBy(requesterPk);
         user.setUpdatedDate(TimeHelper.now());
-        userRepository.save(user);
+        userOutputPort.save(user);
     }
 
 
@@ -216,7 +216,7 @@ public class ManageUserService implements ManageUserUseCase {
     public void deleteUser(Long tenantPk, Long userPk, User requester) {
         Long requesterPk = requester.getId();
 
-        User user = userRepository.findUserById(userPk);
+        User user = userOutputPort.findUserById(userPk);
         if (user == null) {
             throw new UserException(USER_NOT_EXIST);
         }
@@ -229,7 +229,7 @@ public class ManageUserService implements ManageUserUseCase {
         user.setUserStatus(UserStatusType.NOT_USED);
         user.setUpdatedBy(requesterPk);
         user.setUpdatedDate(TimeHelper.now());
-        userRepository.save(user);
+        userOutputPort.save(user);
         roleService.deleteUserRole(userPk);
     }
 
@@ -242,13 +242,13 @@ public class ManageUserService implements ManageUserUseCase {
     })
     @Override
     public void enableUser(Long userPk) {
-        User user = userRepository.findUserById(userPk);
+        User user = userOutputPort.findUserById(userPk);
         if (user == null) {
             throw new UserException(USER_NOT_EXIST);
         }
         user.setUserStatus(UserStatusType.OK);
         user.setUpdatedBy(SYSTEM_USER);
         user.setUpdatedDate(TimeHelper.now());
-        userRepository.save(user);
+        userOutputPort.save(user);
     }
 }
