@@ -27,6 +27,7 @@ import xyz.needpainkiller.helper.ValidationHelper;
 import java.io.Serializable;
 import java.util.*;
 
+import static net.sf.jsqlparser.util.validation.metadata.NamedObject.user;
 import static xyz.needpainkiller.api.tenant.domain.error.TenantErrorCode.TENANT_CONFLICT;
 import static xyz.needpainkiller.api.user.domain.error.UserErrorCode.USER_ALREADY_EXIST;
 import static xyz.needpainkiller.api.user.domain.error.UserErrorCode.USER_NOT_EXIST;
@@ -51,24 +52,20 @@ public class ManageUserService implements ManageUserUseCase {
 
     @Override
     public void increaseLoginFailedCnt(Long userPk) {
-        User user = userOutputPort.findUserById(userPk);
-        if (user == null) {
-            throw new UserException(USER_NOT_EXIST);
-        }
+        User user = userOutputPort.findUserById(userPk)
+                .orElseThrow(() -> new UserException(USER_NOT_EXIST));
         user.setLoginFailedCnt(user.getLoginFailedCnt() + 1);
-        userOutputPort.save(user);
+        userOutputPort.update(user);
     }
 
 
     @Override
     public void updateLastLoginDate(Long userPk) {
-        User user = userOutputPort.findUserById(userPk);
-        if (user == null) {
-            throw new UserException(USER_NOT_EXIST);
-        }
+        User user = userOutputPort.findUserById(userPk)
+                .orElseThrow(() -> new UserException(USER_NOT_EXIST));
         user.setLoginFailedCnt(0);
         user.setLastLoginDate(TimeHelper.now());
-        userOutputPort.save(user);
+        userOutputPort.update(user);
     }
 
 
