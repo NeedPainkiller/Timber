@@ -7,13 +7,9 @@ import org.apache.logging.log4j.util.Strings;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import xyz.needpainkiller.api.tenant.application.port.out.TenantEventPublisher;
-import xyz.needpainkiller.api.tenant.application.port.out.TenantOutputPort;
 import xyz.needpainkiller.api.tenant.domain.error.TenantException;
 import xyz.needpainkiller.api.user.adapter.in.web.data.UserRequests.UpsertUserRequest;
-import xyz.needpainkiller.api.user.adapter.out.persistence.repository.UserRepository;
 import xyz.needpainkiller.api.user.application.port.in.ManageUserUseCase;
 import xyz.needpainkiller.api.user.application.port.out.UserEventPublisher;
 import xyz.needpainkiller.api.user.application.port.out.UserOutputPort;
@@ -27,7 +23,6 @@ import xyz.needpainkiller.helper.ValidationHelper;
 import java.io.Serializable;
 import java.util.*;
 
-import static net.sf.jsqlparser.util.validation.metadata.NamedObject.user;
 import static xyz.needpainkiller.api.tenant.domain.error.TenantErrorCode.TENANT_CONFLICT;
 import static xyz.needpainkiller.api.user.domain.error.UserErrorCode.USER_ALREADY_EXIST;
 import static xyz.needpainkiller.api.user.domain.error.UserErrorCode.USER_NOT_EXIST;
@@ -192,14 +187,12 @@ public class ManageUserService implements ManageUserUseCase {
     @Override
     public void updatePassword(Long userPk, Long requesterPk, String userPwd) {
         ValidationHelper.checkPassword(userPwd);
-        User user = userOutputPort.findUserById(userPk);
-        if (user == null) {
-            throw new UserException(USER_NOT_EXIST);
-        }
+        User user = userOutputPort.findUserById(userPk)
+                .orElseThrow(() -> new UserException(USER_NOT_EXIST));
         user.setUserPwd(bCryptPasswordEncoder.encode(userPwd));
         user.setUpdatedBy(requesterPk);
         user.setUpdatedDate(TimeHelper.now());
-        userOutputPort.save(user);
+        userOutputPort.update(user);
     }
 
 
@@ -213,10 +206,8 @@ public class ManageUserService implements ManageUserUseCase {
     public void deleteUser(Long tenantPk, Long userPk, User requester) {
         Long requesterPk = requester.getId();
 
-        User user = userOutputPort.findUserById(userPk);
-        if (user == null) {
-            throw new UserException(USER_NOT_EXIST);
-        }
+        User user = userOutputPort.findUserById(userPk)
+                .orElseThrow(() -> new UserException(USER_NOT_EXIST));
         if (!user.getTenantPk().equals(tenantPk)) {
             throw new TenantException(TENANT_CONFLICT);
         }
@@ -226,7 +217,7 @@ public class ManageUserService implements ManageUserUseCase {
         user.setUserStatus(UserStatusType.NOT_USED);
         user.setUpdatedBy(requesterPk);
         user.setUpdatedDate(TimeHelper.now());
-        userOutputPort.save(user);
+        userOutputPort.update(user);
         roleService.deleteUserRole(userPk);
     }
 
@@ -239,13 +230,11 @@ public class ManageUserService implements ManageUserUseCase {
     })
     @Override
     public void enableUser(Long userPk) {
-        User user = userOutputPort.findUserById(userPk);
-        if (user == null) {
-            throw new UserException(USER_NOT_EXIST);
-        }
+        User user = userOutputPort.findUserById(userPk)
+                .orElseThrow(() -> new UserException(USER_NOT_EXIST));
         user.setUserStatus(UserStatusType.OK);
-        user.setUpdatedBy(SYSTEM_USER);
+        user.setUpdatedBy(User.SYSTEM_USER);
         user.setUpdatedDate(TimeHelper.now());
-        userOutputPort.save(user);
+        userOutputPort.update(user);
     }
 }
