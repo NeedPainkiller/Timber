@@ -117,7 +117,7 @@ public class ManageUserService implements ManageUserUseCase {
         Map<String, Serializable> data = param.getData();
         user.setData(Objects.requireNonNullElseGet(data, HashMap::new));
 
-        user = userOutputPort.save(user);
+        user = userOutputPort.update(user);
         roleService.upsertUserRole(user.getId(), roleList);
         return user;
     }
