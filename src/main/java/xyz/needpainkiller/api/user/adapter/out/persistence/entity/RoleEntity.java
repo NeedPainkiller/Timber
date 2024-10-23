@@ -3,12 +3,12 @@ package xyz.needpainkiller.api.user.adapter.out.persistence.entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
+ import jakarta.persistence.Table;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.*;
 import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import xyz.needpainkiller.api.tenant.domain.model.TenantBase;
 import xyz.needpainkiller.lib.jpa.BooleanConverter;
@@ -22,10 +22,14 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @JsonInclude(NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
+
+@Cacheable
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@DynamicUpdate
 @Table(name = "ACCOUNT_ROLE")
 public class RoleEntity implements GrantedAuthority, Serializable, TenantBase {
     @Serial
