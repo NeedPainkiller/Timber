@@ -119,6 +119,7 @@ public class ManageUserService implements ManageUserUseCase {
 
         user = userOutputPort.update(user);
         roleService.upsertUserRole(user.getId(), roleList);
+        userEventPublisher.publishCreateEvent(user);
         return user;
     }
 
@@ -148,10 +149,8 @@ public class ManageUserService implements ManageUserUseCase {
             throw new TenantException(TENANT_CONFLICT);
         }
 
-        User user = userOutputPort.findUserById(userPk);
-        if (user == null) {
-            throw new UserException(USER_NOT_EXIST);
-        }
+        User user = userOutputPort.findUserById(userPk)
+                .orElseThrow(() -> new UserException(USER_NOT_EXIST));
 
         if (!user.getTenantPk().equals(tenantPk)) {
             throw new TenantException(TENANT_CONFLICT);
@@ -172,8 +171,9 @@ public class ManageUserService implements ManageUserUseCase {
         if (updatePassword) {
             updatePassword(userPk, requesterPk, userPwd);
         }
-        user = userOutputPort.save(user);
+        user = userOutputPort.update(user);
         roleService.upsertUserRole(userPk, roleList);
+        userEventPublisher.publishUpdateEvent(user);
         return user;
     }
 
@@ -219,6 +219,7 @@ public class ManageUserService implements ManageUserUseCase {
         user.setUpdatedDate(TimeHelper.now());
         userOutputPort.update(user);
         roleService.deleteUserRole(userPk);
+        userEventPublisher.publishDeleteEvent(user);
     }
 
 
