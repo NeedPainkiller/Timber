@@ -1,6 +1,7 @@
 package xyz.needpainkiller.api.user.adapter.out.persistence.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -27,6 +28,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 @Setter
 @NoArgsConstructor
 @JsonInclude(NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
 
 @Cacheable
